@@ -23,7 +23,7 @@ import statsmodels.api as sm
 #!pip install streamlit
 import streamlit as st
 from fuzzywuzzy import fuzz
-import folium
+#import folium
 
 
 # ## Ophalen Datasets
