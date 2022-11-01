@@ -152,7 +152,7 @@ elif pages == 'Watergebruik':
                           method="relayout", 
                           args=[{"yaxis.type": "log"}]),
                                   ])]},height = 700, width = 1000,
-                      labels=dict(x= 'Jaar + str(number)', y="Watergebruik in miljoen m3"))
+                      labels=dict(x= 'Jaar', y="Watergebruik in miljoen m3"))
       st.plotly_chart(fig2)
 
     
