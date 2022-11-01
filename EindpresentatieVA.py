@@ -123,11 +123,11 @@ elif pages == 'Watergebruik':
                                                    'Totaal oppervlaktewater','Zoet oppervlaktewater','Zout oppervlaktewater'))
     if keuze == 'Totaal leidingwater':
       st.subheader('Totaal leidingwater')
-      df_watergebruik['Totaal_leidingwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_leidingwater_miljoen_m3'].tolist(), decimals=2)
+      df_watergebruik['Totaal_leidingwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_leidingwater_miljoen_m3'], decimals=2)
       st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
 
       #Figuur maken van de keuze
-      fig2 = px.bar(df_watergebruik, x = 'Watergebruikers', y= 'Totaal_leidingwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group',width = 3)
+      fig2 = px.bar(df_watergebruik, x = 'Watergebruikers', y= 'Totaal_leidingwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group',width = [10])
       fig2.update_layout({'updatemenus':[dict(
                  buttons=[
                      dict(label="Linear",  
