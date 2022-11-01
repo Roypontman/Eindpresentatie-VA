@@ -117,7 +117,7 @@ elif pages == 'Watergebruik':
     df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
     
     #Knoppen maken zodat een dag van het jaar gekozen kan worden
-    datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", datetime.date(2003),
+    #datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", datetime.date(2003),
                       min_value = datetime.date(2003), max_value = datetime.date(2020))
 
     #Dropdown maken zodat het soort watergebruik gekozen kan worden
@@ -150,7 +150,7 @@ elif pages == 'Watergebruik':
                           method="relayout", 
                           args=[{"yaxis.type": "log"}]),
                                   ])]},height = 700, width = 1000,
-                      labels=dict(x=datum_jaar, y="Watergebruik in miljoen m3"))
+                      labels=dict(x= 'Jaar ' + number, y="Watergebruik in miljoen m3"))
       st.plotly_chart(fig2)
 
     
