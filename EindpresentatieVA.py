@@ -124,12 +124,12 @@ elif pages == 'Watergebruik':
                                                     '**Totaal grondwater**','Koelingwater','Overige gebruik grondwater',
                                                    '**Totaal oppervlaktewater**','Zoet oppervlaktewater','Zout oppervlaktewater'))
     if keuze == '**Totaal leidingwater**':
-    st.markdown(keuze)
-    st.dataframe(df_watergebruik.loc[df_watergebruik['Jaar','Watergebruikers','Totaal_leidingwater_miljoen_m3']])
-    #Figuur maken van de keuze
-    fig2 = px.histogram(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', barmode='group', title='Totaal watergebruik')
+      st.subheader('**Totaal leidingwater**)
+      st.dataframe(df_watergebruik.loc[df_watergebruik['Jaar','Watergebruikers','Totaal_leidingwater_miljoen_m3']])
+      #Figuur maken van de keuze
+      fig2 = px.histogram(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', barmode='group', title='Totaal watergebruik')
 
-    dropdown_buttons_gebruikers = [  {'label': "Alle gebruikers", 'method': "update",'args': [{"visible": [True, True, True, True, True, True, True, True, True, True]}, {'title': 'Alle gebruikers'}]}, 
+      dropdown_buttons_gebruikers = [  {'label': "Alle gebruikers", 'method': "update",'args': [{"visible": [True, True, True, True, True, True, True, True, True, True]}, {'title': 'Alle gebruikers'}]}, 
                    {'label': 'Landbouw', 'method': 'update','args': [{'visible': [False, True, False, False, False, False, False, False, False, False]}, {'title': 'Gebruik landbouw (miljoen m3)'}]},  
                     {'label': 'Delfstofwinning', 'method': 'update','args': [{'visible': [False, False, True, False, False, False, False, False, False, False]}, {'title': 'Gebruik delfstofwinning (miljoen m3)'}]},  
                     {'label': "Industrie", 'method': "update",'args': [{"visible": [False, False, False, True, False, False, False, False, False, False]}, {'title': 'Gebruik industrie (miljoen m3)'}]},
@@ -140,7 +140,7 @@ elif pages == 'Watergebruik':
                    {'label': "Horeca", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False]}, {'title': 'Gebruik horeca (miljoen m3)'}]},
                    {'label': "Huishoudens", 'method': "update",'args': [{"visible": [True, False, False, False, False, False, False, False, False, True]}, {'title': 'Gebruik huishoudens (miljoen m3)'}]}
                   ]
-    fig2.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.3,'y': 0.6,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
+      fig2.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.3,'y': 0.6,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
                 dict(buttons =[
                      dict(label="Linear",  
                           method="relayout", 
@@ -150,7 +150,7 @@ elif pages == 'Watergebruik':
                           args=[{"yaxis.type": "log"}]),
                                   ])]},height = 700, width = 1000,
                       labels=dict(x=datum_jaar, y="Watergebruik in miljoen m3"))
-    st.plotly_chart(fig2)
+      st.plotly_chart(fig2)
 
     
 elif pages == 'Ritteninformatie datasets':
