@@ -395,7 +395,7 @@ elif pages == 'Verloop van het Watergebruik':
                     dict(count=2.5,
                         label="2,5 years",
                         step="year",
-                        stepmode="backward"),
+                        stepmode="forward"),
                     dict(count=5,
                         label="5 years",
                         step="year",
