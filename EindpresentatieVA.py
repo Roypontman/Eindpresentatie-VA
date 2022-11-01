@@ -113,7 +113,7 @@ elif pages == 'Bodemgebruik':
 elif pages == 'Watergebruik':
     st.subheader('Watergebruik per jaar')
     st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per sector.')
-    number = st.number_input('Voer een jaar in', min_value=4, max_value=4, value=2003, step=1)
+    number = st.number_input('Voer een jaar in', min_value=2003, max_value=2020, value=2003, step=1)
     df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
     #Knoppen maken zodat een dag van het jaar gekozen kan worden
     datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", watergebruik['Jaar'],
