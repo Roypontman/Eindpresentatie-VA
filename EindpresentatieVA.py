@@ -144,7 +144,8 @@ elif pages == 'Watergebruik':
                   title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik in miljoen m3")
       
       # Verdeling maken van aandeel per sector
-      fig = px.pie(df_watergebruik, values='Totaal_leidingwater_miljoen_m3', names='Watergebruikers', opacity = 0.6, pull=[0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0], title='Aandeel watergebruik per sector')
+      fig = px.pie(df_watergebruik, values='Totaal_leidingwater_miljoen_m3', names='Watergebruikers', opacity = 0.6, title='Aandeel watergebruik per sector')
+      fig.update_traces(textinfo='percent+label')
       with st.expander("Zie de Visualisaties"):
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
