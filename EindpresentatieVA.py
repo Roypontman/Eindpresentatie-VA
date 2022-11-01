@@ -116,7 +116,7 @@ elif pages == 'Watergebruik':
     number = st.number_input('Voer een jaar in', min_value=2003, max_value=2020, value=2003, step=1)
     df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
     #Knoppen maken zodat een dag van het jaar gekozen kan worden
-    datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", datetime.date(),
+    datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", datetime.date(2003),
                       min_value = datetime.date(2003), max_value = datetime.date(2020))
 
     #Dropdown maken zodat het soort watergebruik gekozen kan worden
