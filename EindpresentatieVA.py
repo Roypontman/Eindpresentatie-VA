@@ -130,7 +130,8 @@ elif pages == 'Watergebruik':
       st.subheader('**Totaal leidingwater**')
       st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
       #Figuur maken van de keuze
-      fig2 = px.histogram(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', barmode='group', title='Totaal watergebruik')
+      fig2 = px.histogram(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers',
+                          barmode='group', title='Totaal watergebruik', labels={'Jaar': 'Jaar', 'Totaal_leidingwater_miljoen_m3': "Leidingwater gebruik  in miljoen m3"})
 
       dropdown_buttons_gebruikers = [  {'label': "Alle gebruikers", 'method': "update",'args': [{"visible": [True, True, True, True, True, True, True, True, True, True]}, {'title': 'Alle gebruikers'}]}, 
                    {'label': 'Landbouw', 'method': 'update','args': [{'visible': [False, True, False, False, False, False, False, False, False, False]}, {'title': 'Gebruik landbouw (miljoen m3)'}]},  
@@ -151,8 +152,7 @@ elif pages == 'Watergebruik':
                      dict(label="Log", 
                           method="relayout", 
                           args=[{"yaxis.type": "log"}]),
-                                  ])]},height = 700, width = 1000,
-                      labels=dict(x= 'Jaar', y="Watergebruik in miljoen m3"))
+                                  ])]},height = 700, width = 1000)
       st.plotly_chart(fig2)
 
     
