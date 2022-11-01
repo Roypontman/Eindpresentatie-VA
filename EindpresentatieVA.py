@@ -129,7 +129,14 @@ elif pages == 'Watergebruik':
       st.subheader('Totaal leidingwater')
       df_watergebruik['Totaal_leidingwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_leidingwater_miljoen_m3'], decimals=2)
       st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
-
+        with st.expander("See Visualizations"):
+          
+          st.write("""
+            The chart above shows some numbers I picked for you.
+            I rolled actual dice for these, so they're *guaranteed* to
+            be random.
+            """)
+          st.image("https://static.streamlit.io/examples/dice.jpg")
       #Figuur maken van de keuze
       fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
@@ -142,10 +149,18 @@ elif pages == 'Watergebruik':
                           args=[{"yaxis.type": "log"}])]
                   )]}, height = 700, width = 1000,
                   title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik in miljoen m3")
-      st.plotly_chart(fig2)
+      
       # Verdeling maken van aandeel per sector
       fig = px.pie(df_watergebruik, values='Totaal_leidingwater_miljoen_m3', names='Watergebruikers', title='Aandeel watergebruik per sector')
-      st.plotly_chart(fig)
+        with st.expander("See Visualizations"):
+          st.plotly_chart(fig2)
+          st.plotly_chart(fig)
+          st.write("""
+            De grafieken laten zien dat huishoudens en horeca veruit het meeste leidingwater gebruiken in Nederland.
+            """)   
+
+      
+      
     if keuze == 'Drinkwater':
       st.subheader('Drinkwater')
       df_watergebruik['Drinkwater_miljoen_m3'] = np.around(df_watergebruik['Drinkwater_miljoen_m3'], decimals=2)
@@ -163,7 +178,7 @@ elif pages == 'Watergebruik':
                           args=[{"yaxis.type": "log"}])]
                   )]}, height = 700, width = 1000,
                   title='Totaal watergebruik voor Drinkwater', yaxis_title = "Drinkwater gebruik in miljoen m3")
-      st.plotly_chart(fig2)
+      
       
     if keuze == 'Industriewater':
       st.subheader('Industriewater')
