@@ -96,7 +96,7 @@ df_watergebruik_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum()
 # In[ ]:
 
 
-pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik' 'Ritteninformatie datasets'))
+pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik', 'Ritteninformatie datasets'))
 
 if pages == 'Home':
     st.title("**Bodem- en watergebruik in Nederland**")
