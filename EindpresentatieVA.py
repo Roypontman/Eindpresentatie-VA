@@ -389,13 +389,47 @@ elif pages == 'Verloop van het Watergebruik':
     st.subheader("Verloop van het Watergebruik in Nederland")
     st.markdown("Op deze pagina wordt het verloop van het watergebruik in Nederland weergegeven over de jaren van 2003 tot en met 2020.")
     st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
-    fig_lijn = go.Figure()
-    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_gebruik)))
-    # Lijn per soort water (leiding-, grond- of oppervlaktewater)
-    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3)))
-    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3)))
-    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3)))
-    fig_lijn.update_layout(title_text ="Totaal verloop watergebruik in Nederland",
+    fig_lijn_totaal = go.Figure()
+    fig_lijn_totaal.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_gebruik)))
+    fig_lijn_totaal.update_layout(title_text ="Totaal verloop watergebruik in Nederland",
+                          yaxis_title = 'Totaal watergebruik (miljard m3)')
+    #Invoegen slider en knoppen
+    fig_lijn_totaal.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
+                    dict(count=2.5,
+                        label="2,5 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(count=5,
+                        label="5 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(count=7.5,
+                        label="7,5 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(count=10,
+                        label="10 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(step="all")
+                ])
+            ),
+            rangeslider=dict(
+                visible=True
+            ),
+            type="date"
+        )
+    )
+    st.plotly_chart(fig_lijn_totaal)
+    # Lijn per soort water (leiding-, grond- of oppervlaktewater)    
+    fig_lijn = go.Figure(
+      data=[
+        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3))
+        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3))
+        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3))    
+      ]         
+    )
+    fig_lijn.update_layout(title_text ="Totaal verloop van het gebruik per soort water in Nederland",
                           yaxis_title = 'Totaal watergebruik (miljard m3)')
     #Invoegen slider en knoppen
     fig_lijn.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
