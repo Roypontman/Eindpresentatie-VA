@@ -388,8 +388,8 @@ elif pages == 'Verloop van het Watergebruik':
     st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
     fig_lijn = go.Figure()
     fig_lijn.add_trace( go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_gebruik)))
-    fig_lijn.update_layout(title_text="Totaal verloop watergebruik in Nederland",
-                          yaxis_text= 'Totaal watergebruik (miljard m3)')
+    fig_lijn.update_layout(title_text ="Totaal verloop watergebruik in Nederland",
+                          yaxis_title = 'Totaal watergebruik (miljard m3)')
     #Invoegen slider en knoppen
     fig_lijn.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
                     dict(count=2.5,
