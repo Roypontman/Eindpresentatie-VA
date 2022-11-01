@@ -112,15 +112,19 @@ elif pages == 'Bodemgebruik':
 
 elif pages == 'Watergebruik':
     st.subheader('Watergebruik per jaar')
-    st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per sector.')
+    st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per soort water.')
+    st.markdown('Daarnaast is er data bekend vanaf 2003 tot en met 2020.')
     #Knoppen maken zodat een dag van het jaar gekozen kan worden
     number = st.number_input('Voer een jaar in', min_value=2003, max_value=2020, value=2003, step=1)
     df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
     df_watergebruik.reset_index(inplace=True,drop=True)
+    st.markdown('Vervolgens kunt u door middel van een dropdown bepalen welk soort watergebruik u wilt zien:')
     #Dropdown maken zodat het soort watergebruik gekozen kan worden
     keuze = st.selectbox( 'Gebruik soort water', ('Totaal leidingwater',"Drinkwater",'Industriewater',
                                                     'Totaal grondwater','Koelingwater','Overige gebruik grondwater',
                                                    'Totaal oppervlaktewater','Zoet oppervlaktewater','Zout oppervlaktewater'))
+    st.markdown('Na u keuze komt een tabel naar voren van het soort water met daarbij de watergebruikers. Deze watergebruikers zijn gekozen sectoren in Nederland die ons leuk leek om weer te kunnen geven.')
+    st.markdown('Daarnaast wordt een grafiek zichtbaar met het gebruik per gekozen jaar per sector')
     if keuze == 'Totaal leidingwater':
       st.subheader('Totaal leidingwater')
       df_watergebruik['Totaal_leidingwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_leidingwater_miljoen_m3'], decimals=2)
@@ -139,10 +143,12 @@ elif pages == 'Watergebruik':
                   )]}, height = 700, width = 1000,
                   title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik in miljoen m3")
       st.plotly_chart(fig2)
-      
+      # Verdeling maken van aandeel per sector
+      fig = px.pie(df_watergebruik, values='Totaal_leidingwater_miljoen_m3', names='Watergebruikers', title='Aandeel watergebruik per sector')
+      st.plotly_chart(fig)
     if keuze == 'Drinkwater':
       st.subheader('Drinkwater')
-      df_watergebruik['Drinkwater_miljoen_m3'] = np.around(df_watergebruik['Drinkwater_miljoen_m3'].tolist(), decimals=2)
+      df_watergebruik['Drinkwater_miljoen_m3'] = np.around(df_watergebruik['Drinkwater_miljoen_m3'], decimals=2)
       st.dataframe(df_watergebruik[['Watergebruikers','Drinkwater_miljoen_m3']])
 
       #Figuur maken van de keuze
