@@ -86,7 +86,9 @@ df_watergebruik.rename(columns={'TotaalLeidingwater_1': 'Totaal_leidingwater_mil
 #Jaar kolom converteren naar een datetime type
 df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.date
 df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.year
-
+# Groeperen op gebruik per jaar
+df_watergebruik['Totaal_gebruik'] = df_watergebruik['Totaal_leidingwater_miljoen_m3'] + df_watergebruik['Totaal_grondwater_miljoen_m3'] + df_watergebruik['Totaal_oppervlaktewater_miljoen_m3']
+df_watergebruik_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum().reset_index(name = 'Totaal_gebruik')
 # ###Bewerken data bodemgebruik
 
 # ## Streamlit Code
@@ -94,7 +96,7 @@ df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.year
 # In[ ]:
 
 
-pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Ritteninformatie datasets'))
+pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik' 'Ritteninformatie datasets'))
 
 if pages == 'Home':
     st.title("**Bodem- en watergebruik in Nederland**")
@@ -180,7 +182,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+          De visualisaties laten zien dat Huishoudens en de Industrie veruit het meeste drinkwater gebruiken in Nederland.
           """)         
       
     if keuze == 'Industriewater':
@@ -208,7 +210,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+          De visualisaties laten zien dat de Industrie de enige sector is die industriewater gebruikt in Nederland. Dit komt door een fout in de dataset, waardoor meerdere sectoren vallen onder Industrie. Hiermee valt alles onder één sector.
           """)
       
     if keuze == 'Totaal grondwater':
@@ -236,7 +238,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+          De visualisaties laten zien dat de Water- en afval sector, Industrie, Voedselwinning en de Landbouwsector veruit het meeste grondwater gebruiken in Nederland.
           """)
       
     if keuze == 'Koelingwater':
@@ -264,7 +266,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+          De visualisaties laten zien dat de Industrie en de Voedelwinning sector veruit het meeste koelwater gebruiken in Nederland.
           """)
       
     if keuze == 'Overige gebruik grondwater':
@@ -292,7 +294,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+          De visualisaties laten zien dat de Water- en afval sector en de Landbouwsector veruit het meeste grondwater gebruiken in Nederland. Zonder daarmee Koelwater mee te rekenen.
           """)
       
     if keuze == 'Totaal oppervlaktewater':
@@ -320,7 +322,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+          De visualisaties laten zien dat de Energievoorziening, Industrie en de Water- en afval sector veruit het meeste oppervlaktewater gebruiken in Nederland.
           """)
       
     if keuze == 'Zoet oppervlaktewater':
@@ -348,7 +350,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+          De visualisaties laten zien dat de Energievoorziening, Industrie en de Water- en afval sector veruit het meeste zoete oppervlaktewater gebruiken in Nederland.
           """)
       
     if keuze == 'Zout oppervlaktewater':
@@ -376,26 +378,46 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
-          """)        
-elif pages == 'Ritteninformatie datasets':
-    
-    
-    
-    st.subheader("Informatie over ritten")
-    st.markdown("Voor enkele transporteurs is hieronder een schatting van wat de energievraag zou zijn in het geval van dat de ritten door een elektrische vrachtwagen zou worden uitgevoerd. Hierbij gaan we de vraag beantwoorden hoeveel elektriciteit er nodig zou zijn om de rit uit te voeren, en of dit op een bedrijventerrein kan worden gedaan of langs de snelweg.")
-    
-    voertuig_ids_string = np.array2string((np.sort(AlleVoertuigen_merged_df['voertuig_id'].unique())), separator=',')
-    voertuig_ids_string = re.sub(r'[\[\]]', r'', voertuig_ids_string)
-
-    voertuig_ids_december = np.array2string((np.sort(december_merged_df['voertuig_id'].unique())), separator=',')
-    voertuig_ids_december = re.sub(r'[\[\]]', r'', voertuig_ids_december)
-    
-    st.markdown("Voorbeelden van ID's in Allevoertuigen: " + voertuig_ids_string)
-    st.markdown("Voorbeelden van ID's in December: " + voertuig_ids_december)
-
-    number_2 = st.number_input('Voeg een voertuig ID in', min_value=1, max_value=200, value=3, step=1)
-     
+          De visualisaties laten zien dat de Energievoorziening en Industrie sector veruit het meeste zoute oppervlaktewater gebruiken in Nederland.
+          """)
+        
+elif pages == 'Verloop van het Watergebruik':
+    st.subheader("Verloop van het Watergebruik in Nederland")
+    st.markdown("Op deze pagina wordt het verloop van het watergebruik in Nederland weergegeven over de jaren van 2003 tot en met 2020.")
+    st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
+    fig_lijn = go.Figure()
+    fig_lijn.add_trace( go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_gebruik)))
+    fig.update_layout(title_text="Totaal verloop watergebruik in Nederland")
+    #Invoegen slider en knoppen
+    fig_lijn.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
+                    dict(count=2.5,
+                        label="2,5 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(count=5,
+                        label="5 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(count=7.5,
+                        label="7,5 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(count=10,
+                        label="10 years",
+                        step="year",
+                        stepmode="backward"),
+                    dict(step="all")
+                ])
+            ),
+            rangeslider=dict(
+                visible=True
+            ),
+            type="date"
+        )
+    )
+    st.plotly_line(fig_lijn)
+    #fig_lijn = px.line(df_watergebruik_jaar, x = 'Jaar', y="Totaal_gebruik", title='Totaal watergebruik van leidingwater')
+   
     dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
     scenario = st.selectbox( 'Scenario', ('**Scenario 1:** Alle voertuigen Elektrisch',"**Scenario 2:** Grotere accu's",'**Scenario 3:** Vergroot vermogen van de laders', '**Scenario 4:** brandstofkosten vergelijken'))
     if dataset == 'Allevoertuigen':
