@@ -415,7 +415,7 @@ elif pages == 'Verloop van het Watergebruik':
             type="date"
         )
     )
-    st.plotly_line(fig_lijn)
+    st.plotly_chart(fig_lijn)
     #fig_lijn = px.line(df_watergebruik_jaar, x = 'Jaar', y="Totaal_gebruik", title='Totaal watergebruik van leidingwater')
    
     dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
