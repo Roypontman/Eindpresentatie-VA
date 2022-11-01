@@ -131,16 +131,16 @@ elif pages == 'Watergebruik':
       st.dataframe(round(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']],1))
       #Figuur maken van de keuze
       fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', opacity = 0.4)
-      fig2.update_layout(
-                dict(buttons =[
+      fig2.update_layout({'updatemenus':[dict(
+                 buttons=[
                      dict(label="Linear",  
                           method="relayout", 
                           args=[{"yaxis.type": "linear"}]),
                      dict(label="Log", 
                           method="relayout", 
-                          args=[{"yaxis.type": "log"}]),
-                                  ]),
-                height = 700, width = 1000, title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik  in miljoen m3")
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 1000,
+                  title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik  in miljoen m3")
       st.plotly_chart(fig2)
 
     
