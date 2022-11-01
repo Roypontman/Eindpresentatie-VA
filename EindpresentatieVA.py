@@ -17,175 +17,142 @@ import numpy as np
 import requests
 import plotly.express as px
 import plotly.figure_factory as ff
+import plotly.graph_objects as go
 from shapely.geometry import Point
 import missingno as msno
 import statsmodels.api as sm
 #!pip install streamlit
 import streamlit as st
 from fuzzywuzzy import fuzz
+from datetime import datetime
 #import folium
 
 
 # ## Ophalen Datasets
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
+df_leidingwater = pd.read_csv('Leidingwater.csv', sep =';')
+df_grondwater = pd.read_csv('Grondwater.csv', sep =';')
+df_oppervlaktewater = pd.read_csv('Oppervlaktewater.csv', sep =';')
+
+# ## Bewerken van de Data
+# ###Bewerken data watergebruik
+
+# Voor grondwater en oppervlaktewater zijn er NAN-values omdat het hier gaat om huishoudelijke watergebruikers
+# of gebruikers die alleen gebruik maken van leidingwater (zoals bijvoorbeeld ook Horeca). Hierdoor vullen we alle NAN-values met 0
+df_grondwater = df_grondwater.fillna(0)
+df_oppervlaktewater = df_oppervlaktewater.fillna(0)
+
+df_watergebruik = df_leidingwater.merge(df_grondwater, on = ['ID','Perioden','Watergebruikers']) \
+                    .merge(df_oppervlaktewater, on = ['ID','Perioden','Watergebruikers'])
+df_watergebruik['Jaar'] = df_watergebruik['Perioden'].str[:4]
+df_watergebruik.drop(['Perioden','ID'],axis=1, inplace=True)
+df_watergebruik['Watergebruikers'] = df_watergebruik['Watergebruikers'].astype(str)
+# Alle sectoren zijn gecodeerd in de download van de CSV, hierdoor moeten ze allemaal weer de goede naam krijgen.
+for i,column in df_watergebruik.iterrows():
+    if column['Watergebruikers'] == '301000':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Landbouw'
+    if column['Watergebruikers'] == '1050010':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Huishoudens'
+    if column['Watergebruikers'] == '305700':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Delfstofwinning'
+    if column['Watergebruikers'] == '307500':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Industrie'
+    if column['Watergebruikers'] == '307600':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Voedselwinning'
+    if column['Watergebruikers'] == '346600':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Energievoorziening'
+    if column['Watergebruikers'] == '348000':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Water- en afvalbedrijven'
+    if column['Watergebruikers'] == '383100':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Vervoer en opslag'
+    if column['Watergebruikers'] == '389100':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Horeca'
+# Kolommen in de juiste volgorde zetten en hernoemen
+df_watergebruik = df_watergebruik[['Jaar','Watergebruikers',
+                 'TotaalLeidingwater_1','Drinkwater_2',
+                 'Industriewater_3','TotaalGrondwater_4',
+                 'GebruikVoorKoeling_5','OverigGebruikGrondwater_6',
+                 'TotaalOppervlaktewater_7','ZoetOppervlaktewater_8',
+                 'ZoutOppervlaktewater_9']]
+df_watergebruik.rename(columns={'TotaalLeidingwater_1': 'Totaal_leidingwater_miljoen_m3',
+                               'Drinkwater_2': 'Drinkwater_miljoen_m3',
+                               'Industriewater_3': 'industriewater_miljoen_m3',
+                               'TotaalGrondwater_4':'Totaal_grondwater_miljoen_m3',
+                               'GebruikVoorKoeling_5':'Koelingwater_miljoen_m3',
+                               'OverigGebruikGrondwater_6':'OverigeGebruikGrondwater_miljoen_m3',
+                               'TotaalOppervlaktewater_7':'Totaal_oppervlaktewater_miljoen_m3',
+                               'ZoetOppervlaktewater_8':'ZoetOppervlaktewater_miljoen_m3',
+                               'ZoutOppervlaktewater_9':'ZoutOppervlaktewater_miljoen_m3'}, inplace=True)
+#Jaar kolom converteren naar een datetime type
+for i,column in df_watergebruik.iterrows():
+    column['Jaar'] = datetime.strptime(df_watergebruik.loc[i,'Jaar'], '%Y')
+    #print(column['Jaar'].year)
+
+# ###Bewerken data bodemgebruik
 
 # ## Streamlit Code
 
 # In[ ]:
 
 
-pages = st.sidebar.selectbox('Pagina' ,('Home','Terrein Kaart','Verbruik', 'Ritteninformatie datasets'))
+pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Ritteninformatie datasets'))
 
 if pages == 'Home':
-    st.header("**Klimaatneutraal rijden**")
+    st.title("**Bodem- en watergebruik in Nederland**")
     st.markdown("Met dit dashboard wordt geprobeerd een zo een compleet mogelijk beeld te weergeven van de ontwikkeling van de energievraag van logistieke bedrijven en de knelpunten in het netwerk. Omdat er al een tekort is aan capaciteit op het elektriciteitsnetwerk, is de verwachting dat de aanleg van nieuwe aansluitingen door de netbeheerder tot wel 8 jaar kan duren. Daarom is het belangrijk om nu alvast in kaart te brengen wat de verwachtte energievraag is (hoeveel, waar en wanneer) in de toekomstige situatie zodat we ons op tijd kunnen voorbereiden en logistieke vervoerders niet hoeven te wachten met het aanschaffen van elektrische voertuigen omdat er onvoldoende netwerkcapaciteit beschikbaar is. Dat zou de energietransitie onnodig remmen.")
 
     #st.markdown("Welkom op het dashboard van groep 22. Gebruik de knoppen in de sidebar om tussen de verschillende paginas te navigeren. ")
 
 
-elif pages == 'Terrein Kaart':
+elif pages == 'Bodemgebruik':
     st.subheader('Kaarten Bedrijventerreinen')
     st.markdown("In de kaart zijn de energiebehoeftes van Schiphol tradepark en WFO per gebouw weergegeven. Hiermee gaan we een geschatte energievraag analyseren van op basis van voertuigregistraties. Op basis van publieke data en deelse CBS data. Wordt een inschatting gemaakt hoe de energiebehoefte/voorraad op bedrijventerreinen.")
     folium_static(mwfo)#Kaart1
     folium_static(mstp)#Kaart2
-elif pages == 'Verbruik':
-    st.subheader('Energie verbruik per dag')
-    st.markdown('In onderstaande velden voer een voertuig ID in om het energieverbruik over een dag van een vrachtwagen te visualiseren.')
-    number = st.number_input('Voeg een voertuig ID in', min_value=1, max_value=200, value=1, step=1)
-
-        #Knoppen maken zodat een dag van het jaar gekozen kan worden
-    datum_2022 = st.date_input("Kies hier een datum voor het energieprofiel van 2022", datetime.date(2021, 4, 1),
-                      min_value = datetime.date(2021, 4, 1), max_value = datetime.date(2021, 4, 30))
 
 
+elif pages == 'Watergebruik':
+    st.subheader('Watergebruik per jaar')
+    st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per sector.')
+    number = st.number_input('Voer een jaar in', min_value=4, max_value=4, value=2003, step=1)
+    df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
+    #Knoppen maken zodat een dag van het jaar gekozen kan worden
+    datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", watergebruik['Jaar'],
+                      min_value = datetime.date(2003), max_value = datetime.date(2020))
+
+    #Dropdown maken zodat het soort watergebruik gekozen kan worden
+    keuze = st.selectbox( 'Gebruik soort water', ('**Totaal leidingwater**',"Drinkwater",'Industriewater',
+                                                    '**Totaal grondwater**','Koelingwater','Overige gebruik grondwater',
+                                                   '**Totaal oppervlaktewater**','Zoet oppervlaktewater','Zout oppervlaktewater'))
+    if keuze == '**Totaal leidingwater**':
+    st.markdown(keuze)
+    st.dataframe(df_watergebruik.loc[df_watergebruik['Jaar','Watergebruikers','Totaal_leidingwater_miljoen_m3']])
+    #Figuur maken van de keuze
+    fig2 = px.histogram(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', barmode='group', title='Totaal watergebruik')
+
+    dropdown_buttons_gebruikers = [  {'label': "Alle gebruikers", 'method': "update",'args': [{"visible": [True, True, True, True, True, True, True, True, True, True]}, {'title': 'Alle gebruikers'}]}, 
+                   {'label': 'Landbouw', 'method': 'update','args': [{'visible': [False, True, False, False, False, False, False, False, False, False]}, {'title': 'Gebruik landbouw (miljoen m3)'}]},  
+                    {'label': 'Delfstofwinning', 'method': 'update','args': [{'visible': [False, False, True, False, False, False, False, False, False, False]}, {'title': 'Gebruik delfstofwinning (miljoen m3)'}]},  
+                    {'label': "Industrie", 'method': "update",'args': [{"visible": [False, False, False, True, False, False, False, False, False, False]}, {'title': 'Gebruik industrie (miljoen m3)'}]},
+                   {'label': 'Voedselwinning', 'method': 'update','args': [{'visible': [False, False, False, False, True, False, False, False, False, False]}, {'title': 'Gebruik voedselwinning (miljoen m3)'}]},
+                   {'label': "Energievoorziening", 'method': "update",'args': [{"visible": [False, False, False, False, False, True, False, False, False, False]}, {'title': 'Gebruik energievoorziening (miljoen m3)'}]},
+                   {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, True, False, False, False]}, {'title': 'Gebruik water- en afvalbedrijven (miljoen m3)'}]},
+                    {'label': "Vervoer en opslag", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, True, False, False]}, {'title': 'Gebruik vervoer en opslag (miljoen m3)'}]},
+                   {'label': "Horeca", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False]}, {'title': 'Gebruik horeca (miljoen m3)'}]},
+                   {'label': "Huishoudens", 'method': "update",'args': [{"visible": [True, False, False, False, False, False, False, False, False, True]}, {'title': 'Gebruik huishoudens (miljoen m3)'}]}
+                  ]
+    fig2.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.3,'y': 0.6,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
+                dict(buttons =[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}]),
+                                  ])]},height = 700, width = 1000,
+                      labels=dict(x=datum_jaar, y="Watergebruik in miljoen m3"))
+    st.plotly_chart(fig2)
 
     
-
-    merged_df_voertuig = AlleVoertuigen_merged_df.loc[AlleVoertuigen_merged_df['voertuig_id'] == number]
-
-    merged_df_voertuig.reset_index(drop=True, inplace=True)
-    if merged_df_voertuig['Voertuig'][0] == 'Bestelbus':
-        simulatie_bestelbus_allevoertuigen_input = simulate(merged_df_voertuig,
-                      zuinig = 0.2, 
-                      aansluittijd = 600, 
-                      battery = 60, 
-                      laadvermogen_bedrijfsterrein = 22, 
-                      laadvermogen_snelweg = 80)
-        simulatie_auto_datum_test =simulatie_bestelbus_allevoertuigen_input[simulatie_bestelbus_allevoertuigen_input['Begindatum'].dt.date == datum_2022]
-
-    if merged_df_voertuig['Voertuig'][0] == 'Vrachtwagen':
-        simulatie_vrachtwagen_allevoertuigen_input = simulate(merged_df_voertuig,
-                      zuinig = 1, 
-                      aansluittijd = 600,
-                      battery = 300,
-                      laadvermogen_bedrijfsterrein = 43,
-                      laadvermogen_snelweg = 150)
-        simulatie_auto_datum_test = simulatie_vrachtwagen_allevoertuigen_input[simulatie_vrachtwagen_allevoertuigen_input['Begindatum'].dt.date == datum_2022]
-
-
-
-    simulatie_auto_datum_test.reset_index(inplace=True, drop=True)
-
-    fig1 = px.line(simulatie_auto_datum_test ,x='Begintijd', y='energie_beginstand', color=px.Constant(datum_2022),
-             labels=dict(x=datum_2022, y="kWh", color="Time Period"))
-    st.plotly_chart(fig1)
-    st.plotly_chart(fig_energie)
-    st.plotly_chart(fig_euro) 
 elif pages == 'Ritteninformatie datasets':
     
     
