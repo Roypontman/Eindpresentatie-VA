@@ -17,6 +17,7 @@ import numpy as np
 import requests
 import plotly.express as px
 import plotly.figure_factory as ff
+from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from shapely.geometry import Point
 import missingno as msno
@@ -422,13 +423,10 @@ elif pages == 'Verloop van het Watergebruik':
     )
     st.plotly_chart(fig_lijn_totaal)
     # Lijn per soort water (leiding-, grond- of oppervlaktewater)    
-    fig_lijn = go.Figure(
-      data=[
-        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3), offsetgroup=1),
-        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3), offsetgroup=2),
-        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3), offsetgroup=3)    
-      ]         
-    )
+    fig_lijn = make_subplots(rows = 3, cols = 1)
+    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3),row=1,col =1))
+    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3),row=2,col =1))
+    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3),row=3,col =1))    
     fig_lijn.update_layout(title_text ="Totaal verloop van het gebruik per soort water in Nederland",
                           yaxis_title = 'Totaal watergebruik (miljard m3)')
     #Invoegen slider en knoppen
