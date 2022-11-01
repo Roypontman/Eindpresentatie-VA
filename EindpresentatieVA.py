@@ -127,7 +127,7 @@ elif pages == 'Watergebruik':
       st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
 
       #Figuur maken van de keuze
-      fig2 = px.bar(df_watergebruik, x = 'Watergebruikers', y= 'Totaal_leidingwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group',width = [10])
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
                  buttons=[
                      dict(label="Linear",  
@@ -165,7 +165,7 @@ elif pages == 'Watergebruik':
       st.dataframe(df_watergebruik[['Watergebruikers','industriewater_miljoen_m3']])
 
       #Figuur maken van de keuze
-      fig2 = px.bar(df_watergebruik, x = 'Watergebruikers', y= 'industriewater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'industriewater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
                  buttons=[
                      dict(label="Linear",  
@@ -196,8 +196,101 @@ elif pages == 'Watergebruik':
                   )]}, height = 700, width = 1000,
                   title='Totaal watergebruik voor Grondwater', yaxis_title = "Grondwater gebruik in miljoen m3")
       st.plotly_chart(fig2)
+      
+    if keuze == 'Koelingwater':
+      st.subheader('Koelingwater')
+      df_watergebruik['Koelingwater_miljoen_m3'] = np.around(df_watergebruik['Koelingwater_miljoen_m3'], decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','Koelingwater_miljoen_m3']])
 
-    
+      #Figuur maken van de keuze
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Koelingwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 1000,
+                  title='Totaal watergebruik voor Koelwater', yaxis_title = "Koelwater gebruik in miljoen m3")
+      st.plotly_chart(fig2)
+      
+    if keuze == 'Overige gebruik grondwater':
+      st.subheader('Overige gebruik grondwater')
+      df_watergebruik['OverigeGebruikGrondwater_miljoen_m3'] = np.around(df_watergebruik['OverigeGebruikGrondwater_miljoen_m3'], decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','OverigeGebruikGrondwater_miljoen_m3']])
+
+      #Figuur maken van de keuze
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'OverigeGebruikGrondwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 1000,
+                  title='Totaal grondwatergebruik voor overige doeleinde', yaxis_title = "Overige gebruik grondwater in miljoen m3")
+      st.plotly_chart(fig2)
+      
+    if keuze == 'Totaal oppervlaktewater':
+      st.subheader('Totaal oppervlaktewater')
+      df_watergebruik['Totaal_oppervlaktewater_miljoen_m3'] = np.around(df_watergebruik['Totaal_oppervlaktewater_miljoen_m3'], decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','Totaal_oppervlaktewater_miljoen_m3']])
+
+      #Figuur maken van de keuze
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_oppervlaktewater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 1000,
+                  title='Totaal oppervlaktewater gebruik', yaxis_title = "Totaal oppervlaktewater gebruik in miljoen m3")
+      st.plotly_chart(fig2) 
+      
+    if keuze == 'Zoet oppervlaktewater':
+      st.subheader('Zoet oppervlaktewater')
+      df_watergebruik['ZoetOppervlaktewater_miljoen_m3'] = np.around(df_watergebruik['ZoetOppervlaktewater_miljoen_m3'], decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','ZoetOppervlaktewater_miljoen_m3']])
+
+      #Figuur maken van de keuze
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'ZoetOppervlaktewater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 1000,
+                  title='Totaal zoet oppervlaktewater gebruik', yaxis_title = "Totaal zoet oppervlaktewater gebruik in miljoen m3")
+      st.plotly_chart(fig2) 
+      
+    if keuze == 'Zout oppervlaktewater':
+      st.subheader('Zout oppervlaktewater')
+      df_watergebruik['ZoutOppervlaktewater_miljoen_m3'] = np.around(df_watergebruik['ZoutOppervlaktewater_miljoen_m3'], decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','ZoutOppervlaktewater_miljoen_m3']])
+
+      #Figuur maken van de keuze
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'ZoutOppervlaktewater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 1000,
+                  title='Totaal zout oppervlaktewater gebruik', yaxis_title = "Totaal zout oppervlaktewater gebruik in miljoen m3")
+      st.plotly_chart(fig2)         
 elif pages == 'Ritteninformatie datasets':
     
     
