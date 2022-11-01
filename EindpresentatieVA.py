@@ -118,7 +118,7 @@ elif pages == 'Watergebruik':
     
     #Knoppen maken zodat een dag van het jaar gekozen kan worden
     #datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", datetime.date(2003),
-                      min_value = datetime.date(2003), max_value = datetime.date(2020))
+    #                  min_value = datetime.date(2003), max_value = datetime.date(2020))
 
     #Dropdown maken zodat het soort watergebruik gekozen kan worden
     keuze = st.selectbox( 'Gebruik soort water', ('**Totaal leidingwater**',"Drinkwater",'Industriewater',
