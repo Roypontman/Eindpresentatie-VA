@@ -24,7 +24,8 @@ import statsmodels.api as sm
 #!pip install streamlit
 import streamlit as st
 from fuzzywuzzy import fuzz
-from datetime import datetime
+import datetime
+from datetime import date
 #import folium
 
 
