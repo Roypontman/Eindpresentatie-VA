@@ -424,9 +424,9 @@ elif pages == 'Verloop van het Watergebruik':
     # Lijn per soort water (leiding-, grond- of oppervlaktewater)    
     fig_lijn = go.Figure(
       data=[
-        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3))
-        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3))
-        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3))    
+        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3), offsetgroup=1),
+        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3), offsetgroup=2),
+        go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3), offsetgroup=3)    
       ]         
     )
     fig_lijn.update_layout(title_text ="Totaal verloop van het gebruik per soort water in Nederland",
