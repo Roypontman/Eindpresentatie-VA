@@ -89,6 +89,7 @@ df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.year
 # Groeperen op gebruik per jaar
 df_watergebruik['Totaal_gebruik'] = df_watergebruik['Totaal_leidingwater_miljoen_m3'] + df_watergebruik['Totaal_grondwater_miljoen_m3'] + df_watergebruik['Totaal_oppervlaktewater_miljoen_m3']
 df_watergebruik_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum().reset_index(name = 'Totaal_gebruik')
+df_watergebruik_jaar['Totaal_gebruik'] = df_watergebruik_jaar['Totaal_gebruik']/1000
 # ###Bewerken data bodemgebruik
 
 # ## Streamlit Code
@@ -387,7 +388,8 @@ elif pages == 'Verloop van het Watergebruik':
     st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
     fig_lijn = go.Figure()
     fig_lijn.add_trace( go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_gebruik)))
-    fig_lijn.update_layout(title_text="Totaal verloop watergebruik in Nederland")
+    fig_lijn.update_layout(title_text="Totaal verloop watergebruik in Nederland".
+                          yaxis_text= 'Totaal watergebruik (miljard m3)')
     #Invoegen slider en knoppen
     fig_lijn.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
                     dict(count=2.5,
