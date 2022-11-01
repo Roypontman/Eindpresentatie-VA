@@ -130,7 +130,7 @@ elif pages == 'Watergebruik':
       st.subheader('**Totaal leidingwater**')
       st.dataframe(round(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']],1))
       #Figuur maken van de keuze
-      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', opacity = 0.4)
+      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', opacity = 0.4, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
                  buttons=[
                      dict(label="Linear",  
