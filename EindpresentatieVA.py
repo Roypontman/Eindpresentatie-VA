@@ -126,7 +126,7 @@ elif pages == 'Watergebruik':
                                                    '**Totaal oppervlaktewater**','Zoet oppervlaktewater','Zout oppervlaktewater'))
     if keuze == '**Totaal leidingwater**':
       st.subheader('**Totaal leidingwater**')
-      st.dataframe(df_watergebruik.loc[df_watergebruik['Jaar','Watergebruikers','Totaal_leidingwater_miljoen_m3']])
+      st.dataframe(df_watergebruik.loc[['Jaar','Watergebruikers','Totaal_leidingwater_miljoen_m3']])
       #Figuur maken van de keuze
       fig2 = px.histogram(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', barmode='group', title='Totaal watergebruik')
 
