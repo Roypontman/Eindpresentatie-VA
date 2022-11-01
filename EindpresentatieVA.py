@@ -83,9 +83,8 @@ df_watergebruik.rename(columns={'TotaalLeidingwater_1': 'Totaal_leidingwater_mil
                                'ZoetOppervlaktewater_8':'ZoetOppervlaktewater_miljoen_m3',
                                'ZoutOppervlaktewater_9':'ZoutOppervlaktewater_miljoen_m3'}, inplace=True)
 #Jaar kolom converteren naar een datetime type
-for i,column in df_watergebruik.iterrows():
-    column['Jaar'] = datetime.strptime(df_watergebruik.loc[i,'Jaar'], '%Y')
-    #print(column['Jaar'].year)
+df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.date
+df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.year
 
 # ###Bewerken data bodemgebruik
 
@@ -115,7 +114,7 @@ elif pages == 'Watergebruik':
     st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per sector.')
     number = st.number_input('Voer een jaar in', min_value=2003, max_value=2020, value=2003, step=1)
     df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
-    st.write(df_watergebruik.dtypes)
+    
     #Knoppen maken zodat een dag van het jaar gekozen kan worden
     datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", datetime.date(2003),
                       min_value = datetime.date(2003), max_value = datetime.date(2020))
