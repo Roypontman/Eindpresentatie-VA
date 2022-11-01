@@ -90,6 +90,9 @@ df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.year
 df_watergebruik['Totaal_gebruik'] = df_watergebruik['Totaal_leidingwater_miljoen_m3'] + df_watergebruik['Totaal_grondwater_miljoen_m3'] + df_watergebruik['Totaal_oppervlaktewater_miljoen_m3']
 df_watergebruik_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum().reset_index(name = 'Totaal_gebruik')
 df_watergebruik_jaar['Totaal_gebruik'] = df_watergebruik_jaar['Totaal_gebruik']/1000
+df_watergebruiksoort_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3'].sum()
+df_watergebruiksoort_jaar[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']] = df_watergebruiksoort_jaar[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']]/1000
+df_totaal = df_watergebruiksoort_jaar.merge(df_watergebruik_jaar, on ='Jaar')
 # ###Bewerken data bodemgebruik
 
 # ## Streamlit Code
@@ -387,7 +390,11 @@ elif pages == 'Verloop van het Watergebruik':
     st.markdown("Op deze pagina wordt het verloop van het watergebruik in Nederland weergegeven over de jaren van 2003 tot en met 2020.")
     st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
     fig_lijn = go.Figure()
-    fig_lijn.add_trace( go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_gebruik)))
+    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_gebruik)))
+    # Lijn per soort water (leiding-, grond- of oppervlaktewater)
+    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3)))
+    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3)))
+    fig_lijn.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3)))
     fig_lijn.update_layout(title_text ="Totaal verloop watergebruik in Nederland",
                           yaxis_title = 'Totaal watergebruik (miljard m3)')
     #Invoegen slider en knoppen
@@ -395,7 +402,7 @@ elif pages == 'Verloop van het Watergebruik':
                     dict(count=2.5,
                         label="2,5 years",
                         step="year",
-                        stepmode="forward"),
+                        stepmode="backward"),
                     dict(count=5,
                         label="5 years",
                         step="year",
