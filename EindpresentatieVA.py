@@ -113,6 +113,7 @@ elif pages == 'Bodemgebruik':
 elif pages == 'Watergebruik':
     st.subheader('Watergebruik per jaar')
     st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per sector.')
+    #Knoppen maken zodat een dag van het jaar gekozen kan worden
     number = st.number_input('Voer een jaar in', min_value=2003, max_value=2020, value=2003, step=1)
     df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
     df_watergebruik.reset_index(inplace=True,drop=True)
@@ -121,12 +122,8 @@ elif pages == 'Watergebruik':
                  'Koelingwater_miljoen_m3','OverigeGebruikGrondwater_miljoen_m3',
                  'Totaal_oppervlaktewater_miljoen_m3','ZoetOppervlaktewater_miljoen_m3',
                  'ZoutOppervlaktewater_miljoen_m3']], 1)
-    #Knoppen maken zodat een dag van het jaar gekozen kan worden
-    #datum_jaar = st.date_input("Kies hier een datum voor het watergebuik", datetime.date(2003),
-    #                  min_value = datetime.date(2003), max_value = datetime.date(2020))
-
     #Dropdown maken zodat het soort watergebruik gekozen kan worden
-    keuze = st.selectbox( 'Gebruik soort water', ('<b>Totaal leidingwater</b>',"Drinkwater",'Industriewater',
+    keuze = st.selectbox( 'Gebruik soort water', ('**Totaal leidingwater**',"Drinkwater",'Industriewater',
                                                     '**Totaal grondwater**','Koelingwater','Overige gebruik grondwater',
                                                    '**Totaal oppervlaktewater**','Zoet oppervlaktewater','Zout oppervlaktewater'))
     if keuze == '**Totaal leidingwater**':
