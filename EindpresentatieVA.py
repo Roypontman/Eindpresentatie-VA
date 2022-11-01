@@ -139,7 +139,7 @@ elif pages == 'Watergebruik':
                      dict(label="Log", 
                           method="relayout", 
                           args=[{"yaxis.type": "log"}])]
-                  )]}, height = 700, width = 1000,
+                  )]}, height = 700, width = 800,
                   title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik in miljoen m3")
       
       # Verdeling maken van aandeel per sector
