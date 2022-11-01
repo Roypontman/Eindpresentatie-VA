@@ -144,12 +144,12 @@ elif pages == 'Watergebruik':
       
       # Verdeling maken van aandeel per sector
       fig = px.pie(df_watergebruik, values='Totaal_leidingwater_miljoen_m3', names='Watergebruikers', title='Aandeel watergebruik per sector')
-        with st.expander("See Visualizations"):
-          st.plotly_chart(fig2)
-          st.plotly_chart(fig)
-          st.write("""
-            De grafieken laten zien dat huishoudens en horeca veruit het meeste leidingwater gebruiken in Nederland.
-            """)   
+      with st.expander("See Visualizations"):
+        st.plotly_chart(fig2)
+        st.plotly_chart(fig)
+        st.write("""
+          De grafieken laten zien dat huishoudens en horeca veruit het meeste leidingwater gebruiken in Nederland.
+          """)   
 
       
       
