@@ -128,7 +128,8 @@ elif pages == 'Watergebruik':
     if keuze == 'Totaal leidingwater':
       st.subheader('Totaal leidingwater')
       df_watergebruik['Totaal_leidingwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_leidingwater_miljoen_m3'], decimals=2)
-      st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
+      with st.expander("Zie het tabel"):
+        st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
       #Figuur maken van de keuze
       fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', text_auto=True, color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
@@ -139,16 +140,16 @@ elif pages == 'Watergebruik':
                      dict(label="Log", 
                           method="relayout", 
                           args=[{"yaxis.type": "log"}])]
-                  )]}, height = 700, width = 800,
+                  )]}, height = 700, width = 700,
                   title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik in miljoen m3")
       
       # Verdeling maken van aandeel per sector
-      fig = px.pie(df_watergebruik, values='Totaal_leidingwater_miljoen_m3', names='Watergebruikers', title='Aandeel watergebruik per sector')
-      with st.expander("See Visualizations"):
+      fig = px.pie(df_watergebruik, values='Totaal_leidingwater_miljoen_m3', names='Watergebruikers', opacity = 0.6, pull=[0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0], title='Aandeel watergebruik per sector')
+      with st.expander("Zie de Visualisaties"):
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De grafieken laten zien dat huishoudens en horeca veruit het meeste leidingwater gebruiken in Nederland.
+          De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
           """)   
 
       
