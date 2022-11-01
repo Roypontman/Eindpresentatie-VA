@@ -123,10 +123,11 @@ elif pages == 'Watergebruik':
                                                    'Totaal oppervlaktewater','Zoet oppervlaktewater','Zout oppervlaktewater'))
     if keuze == 'Totaal leidingwater':
       st.subheader('Totaal leidingwater')
-      st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
       df_watergebruik['Totaal_leidingwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_leidingwater_miljoen_m3'].tolist(), decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
+
       #Figuur maken van de keuze
-      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2 = px.bar(df_watergebruik, x = 'Watergebruikers', y= 'Totaal_leidingwater_miljoen_m3', color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
                  buttons=[
                      dict(label="Linear",  
@@ -141,8 +142,9 @@ elif pages == 'Watergebruik':
       
     if keuze == 'Drinkwater':
       st.subheader('Drinkwater')
-      st.dataframe(df_watergebruik[['Watergebruikers','Drinkwater_miljoen_m3']])
       df_watergebruik['Drinkwater_miljoen_m3'] = np.around(df_watergebruik['Drinkwater_miljoen_m3'].tolist(), decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','Drinkwater_miljoen_m3']])
+
       #Figuur maken van de keuze
       fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Drinkwater_miljoen_m3', color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
@@ -159,10 +161,11 @@ elif pages == 'Watergebruik':
       
     if keuze == 'Industriewater':
       st.subheader('Industriewater')
-      st.dataframe(df_watergebruik[['Watergebruikers','industriewater_miljoen_m3']])
       df_watergebruik['industriewater_miljoen_m3'] = np.around(df_watergebruik['industriewater_miljoen_m3'].tolist(), decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','industriewater_miljoen_m3']])
+
       #Figuur maken van de keuze
-      fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'industriewater_miljoen_m3', color = 'Watergebruikers', opacity = 0.6, barmode='group')
+      fig2 = px.bar(df_watergebruik, x = 'Watergebruikers', y= 'industriewater_miljoen_m3', color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
                  buttons=[
                      dict(label="Linear",  
@@ -177,8 +180,9 @@ elif pages == 'Watergebruik':
       
     if keuze == 'Totaal grondwater':
       st.subheader('Totaal grondwater')
-      st.dataframe(df_watergebruik[['Watergebruikers','Totaal_grondwater_miljoen_m3']])
       df_watergebruik['Totaal_grondwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_grondwater_miljoen_m3'].tolist(), decimals=2)
+      st.dataframe(df_watergebruik[['Watergebruikers','Totaal_grondwater_miljoen_m3']])
+
       #Figuur maken van de keuze
       fig2 = px.bar(df_watergebruik, x = 'Jaar', y= 'Totaal_grondwater_miljoen_m3', color = 'Watergebruikers', opacity = 0.6, barmode='group')
       fig2.update_layout({'updatemenus':[dict(
