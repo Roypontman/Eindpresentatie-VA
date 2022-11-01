@@ -139,7 +139,7 @@ elif pages == 'Watergebruik':
                      dict(label="Log", 
                           method="relayout", 
                           args=[{"yaxis.type": "log"}]),
-                                  ])]},
+                                  ]),
                 height = 700, width = 1000, title='Totaal watergebruik voor Leidingwater', yaxis_title = "Leidingwater gebruik  in miljoen m3")
       st.plotly_chart(fig2)
 
