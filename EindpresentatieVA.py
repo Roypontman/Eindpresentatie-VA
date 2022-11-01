@@ -122,7 +122,7 @@ elif pages == 'Watergebruik':
                                                     'Totaal grondwater','Koelingwater','Overige gebruik grondwater',
                                                    'Totaal oppervlaktewater','Zoet oppervlaktewater','Zout oppervlaktewater'))
     if keuze == 'Totaal leidingwater':
-      st.subheader(<b>'Totaal leidingwater'</b>)
+      <b>st.subheader('Totaal leidingwater')</b>
       st.dataframe(df_watergebruik[['Watergebruikers','Totaal_leidingwater_miljoen_m3']])
       df_watergebruik['Totaal_leidingwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_leidingwater_miljoen_m3'].tolist(), decimals=2)
       #Figuur maken van de keuze
@@ -176,7 +176,7 @@ elif pages == 'Watergebruik':
       st.plotly_chart(fig2)
       
     if keuze == 'Totaal grondwater':
-      st.subheader(<b>'Totaal grondwater'</b>)
+      <b>st.subheader('Totaal grondwater')</b>
       st.dataframe(df_watergebruik[['Watergebruikers','Totaal_grondwater_miljoen_m3']])
       df_watergebruik['Totaal_grondwater_miljoen_m3'] = np.around(df_watergebruik['Totaal_grondwater_miljoen_m3'].tolist(), decimals=2)
       #Figuur maken van de keuze
