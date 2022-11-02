@@ -112,7 +112,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url("https://wallpapic.nl/water-blauwe-laten-vallen-natuur/0qq26z");
+             background-image: Achtergrond.png;
              background-attachment: fixed;
              background-size: cover;
              #opacity: 0.55
@@ -133,7 +133,7 @@ if pages == 'Home':
     st.image(image, caption='De basis is water',width = 600)
     image = Image.open('Bodem.jpg')
     st.image(image, caption='Complexe indeling in Nederland',width =600)
-    #st.markdown("Welkom op het dashboard van groep 22. Gebruik de knoppen in de sidebar om tussen de verschillende paginas te navigeren. ")
+    
 
 
 elif pages == 'Bodemgebruik':
@@ -459,6 +459,9 @@ elif pages == 'Verloop van het Watergebruik':
     st.plotly_chart(fig_lijn)
     with st.expander("Zie het tabel"):
         st.dataframe(df_watergebruik_jaar)
+    
+    st.markdown("Vanuit het verloop is het goed om de spreiding per sector te weten. Uit de visualisaties komt naar voren dat het oppervlaktewatergebruik de grootste invloed heeft op het totale watergebruik in Nederland. Om het gebruik per sector te achterhalen wordt hieronder eerst de spreiding weergegeven.")
+    st.markdown("Met de spreiding Vanuit het verloop is het goed om de spreiding per sector te weten. Uit de visualisaties komt naar voren dat het oppervlaktewatergebruik de grootste invloed heeft op het totale watergebruik in Nederland. Om het gebruik per sector te achterhalen wordt hieronder eerst de spreiding weergegeven.")
     # Boxplot
     fig_box = px.box(df_totaal, x = 'Watergebruikers', y ='Totaal_gebruik', color = 'Watergebruikers')
     fig_box.update_layout(
