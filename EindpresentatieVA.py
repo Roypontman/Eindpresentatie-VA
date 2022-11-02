@@ -481,33 +481,8 @@ elif pages == 'Verloop van het Watergebruik':
         fig_lijn_totaal_sector.update_layout(title_text ="Totaal verloop watergebruik van de sector {input} in Nederland",
                           yaxis_title = 'Totaal watergebruik in de {input} (miljard m3)')
         #Invoegen slider en knoppen
-        fig_lijn_totaal_sector.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
-                        dict(count=2.5,
-                            label="2,5 years",
-                            step="year",
-                            stepmode="backward"),
-                        dict(count=5,
-                            label="5 years",
-                            step="year",
-                            stepmode="backward"),
-                        dict(count=7.5,
-                            label="7,5 years",
-                            step="year",
-                            stepmode="backward"),
-                        dict(count=10,
-                            label="10 years",
-                            step="year",
-                            stepmode="backward"),
-                        dict(step="all")
-                    ])
-                ),
-                rangeslider=dict(
-                    visible=True
-                ),
-                type="date"
-                )
-            )
-         st.plotly_chart(fig_lijn_totaal_sector)
+        fig_lijn_totaal_sector.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
+        st.plotly_chart(fig_lijn_totaal_sector)
     dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
     scenario = st.selectbox( 'Scenario', ('**Scenario 1:** Alle voertuigen Elektrisch',"**Scenario 2:** Grotere accu's",'**Scenario 3:** Vergroot vermogen van de laders', '**Scenario 4:** brandstofkosten vergelijken'))
     if dataset == 'Allevoertuigen':
