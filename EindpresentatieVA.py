@@ -116,6 +116,8 @@ if pages == 'Home':
     st.markdown("Met dit dashboard wordt geprobeerd het bodem- en watergerbuik in Nederland in kaart te krijgen. Door middel van datasets van CBS zijn jaargebruiken opgehaald en geanalyseerd. In de linker ribbon kunt u zich bewegen door het dashboard door middel van een dropdown. In deze dropdown is er een keuze te maken tussen het bodemgebruik, het watergebruik, het verloop van het watergebruik en het toekomstige watergebruik.")
     image = Image.open('Water.jpg')
     st.image(image, caption='De basis is water')
+    image = Image.open('Bodem.jpg')
+    st.image(image, caption='Complexe indeling in Nederland')
     #st.markdown("Welkom op het dashboard van groep 22. Gebruik de knoppen in de sidebar om tussen de verschillende paginas te navigeren. ")
 
 
