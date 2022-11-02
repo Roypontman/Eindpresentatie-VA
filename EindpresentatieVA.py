@@ -461,7 +461,7 @@ elif pages == 'Verloop van het Watergebruik':
         st.dataframe(df_watergebruik_jaar)
     
     st.markdown("Vanuit het verloop is het goed om de spreiding per sector te weten. Uit de visualisaties komt naar voren dat het oppervlaktewatergebruik de grootste invloed heeft op het totale watergebruik in Nederland. Om het gebruik per sector te achterhalen wordt hieronder eerst de spreiding weergegeven.")
-    st.markdown("Met de spreiding Vanuit het verloop is het goed om de spreiding per sector te weten. Uit de visualisaties komt naar voren dat het oppervlaktewatergebruik de grootste invloed heeft op het totale watergebruik in Nederland. Om het gebruik per sector te achterhalen wordt hieronder eerst de spreiding weergegeven.")
+    st.markdown("Met de spreiding wordt de variatie van het gebruik weergegeven van waar tussen de specifieke sector heeft gevarieerd in de jaren 2003 tot en met 2020.")
     # Boxplot
     fig_box = px.box(df_totaal, x = 'Watergebruikers', y ='Totaal_gebruik', color = 'Watergebruikers')
     fig_box.update_layout(
