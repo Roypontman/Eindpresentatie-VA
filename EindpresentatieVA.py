@@ -458,7 +458,7 @@ elif pages == 'Verloop van het Watergebruik':
     fig_lijn.update_yaxes(title_text="Totaal watergebruik (miljard m3)", row = 2, col = 1)
     st.plotly_chart(fig_lijn)
     with st.expander("Zie het tabel"):
-        st.dataframe(df_totaal)
+        st.dataframe(df_watergebruik_jaar)
     # Boxplot
     fig_box = px.box(df_totaal, x = 'Watergebruikers', y ='Totaal_gebruik', color = 'Watergebruikers')
     fig_box.update_layout(
@@ -499,6 +499,7 @@ elif pages == 'Verloop van het Watergebruik':
           'font': {'size': 18, 'color': 'Black'},
           'bgcolor': 'rgb(210, 210, 210)', 'showarrow': False}
         df_totaal1 = df_totaal.loc[df_totaal['Watergebruikers'] == input]
+        df_totaal1 = df_totaal1.reset_index()
         st.dataframe(df_totaal1)
         fig_lijn_totaal_sector = go.Figure()
         fig_lijn_totaal_sector.add_trace( go.Scatter(x=list(df_totaal1.Jaar), y=list(df_totaal1.Totaal_gebruik)))
