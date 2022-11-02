@@ -452,17 +452,17 @@ elif pages == 'Verloop van het Watergebruik':
     )
     fig_box.update_xaxes(categoryorder ='array')
     dropdown_buttons_gebruikers = [  {'label': "Alle gebruikers", 'method': "update",'args': [{"visible": [True, True, True, True, True, True, True, True, True, True, True]}, {'title': 'Alle gebruikers'}]},
-                                     {'label': 'Delfstofwinning', 'method': 'update','args': [{'visible': [False, True, False, False, False, False, False, False, False, False, False]}, {'title': 'Gebruik in de delfstofwinning (miljoen m3)'}]},
-                                     {'label': 'Energievoorziening', 'method': 'update','args': [{'visible': [False, False, True, False, False, False, False, False, False, False, False]}, {'title': 'Gebruik energievoorziening (miljoen m3)'}]},  
-                                     {'label': 'Handel', 'method': 'update','args': [{'visible': [False, False, False, True, False, False, False, False, False, False, False]}, {'title': 'Gebruik handel (miljoen m3)'}]},  
-                                     {'label': "Horeca", 'method': "update",'args': [{"visible": [False, False, False, False, True, False, False, False, False, False, False]}, {'title': 'Gebruik horeca (miljoen m3)'}]},
-                                     {'label': 'Huishoudens', 'method': 'update','args': [{'visible': [False, False, False, False, False, True, False, False, False, False, False]}, {'title': 'Gebruik huishoudens (miljoen m3)'}]},
-                                     {'label': "Industrie", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, True, False, False, False, False]}, {'title': 'Gebruik industrie (miljoen m3)'}]},
-                                     {'label': "Landbouw", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, True, False, False, False]}, {'title': 'Gebruik landbouw (miljoen m3)'}]},
-                                     {'label': "Vervoer en opslag", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False, False]}, {'title': 'Gebruik vervoer en opslag (miljoen m3)'}]},
-                                     {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, True, False]}, {'title': 'Gebruik water- en afvalbedrijven(miljoen m3)'}]},
-                                     {'label': "Bouw", 'method': "update",'args': [{"visible": [True, False, False, False, False, False, False, False, False, False, False]}, {'title': 'Gebruik bouw (miljoen m3)'}]}]
-    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.35,'y': 0.75,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
+                                     {'label': 'Delfstofwinning', 'method': 'update','args': [{'visible': [False, True, False, False, False, False, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik in de delfstofwinning (miljoen m3)'}]},
+                                     {'label': 'Energievoorziening', 'method': 'update','args': [{'visible': [False, False, True, False, False, False, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik energievoorziening (miljoen m3)'}]},  
+                                     {'label': 'Handel', 'method': 'update','args': [{'visible': [False, False, False, True, False, False, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik handel (miljoen m3)'}]},  
+                                     {'label': "Horeca", 'method': "update",'args': [{"visible": [False, False, False, False, True, False, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik horeca (miljoen m3)'}]},
+                                     {'label': 'Huishoudens', 'method': 'update','args': [{'visible': [False, False, False, False, False, True, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik huishoudens (miljoen m3)'}]},
+                                     {'label': "Industrie", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, True, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik industrie (miljoen m3)'}]},
+                                     {'label': "Landbouw", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, True, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik landbouw (miljoen m3)'}]},
+                                     {'label': "Vervoer en opslag", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False, False]}, {'title': 'Spreiding van het totaal watergebruik vervoer en opslag (miljoen m3)'}]},
+                                     {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, True, False]}, {'title': 'Spreiding van het totaal watergebruik water- en afvalbedrijven(miljoen m3)'}]},
+                                     {'label': "Bouw", 'method': "update",'args': [{"visible": [True, False, False, False, False, False, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik bouw (miljoen m3)'}]}]
+    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.20,'y': 0.45,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
                 dict(buttons =[
                      dict(label="Linear",  
                           method="relayout", 
