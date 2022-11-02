@@ -429,35 +429,8 @@ elif pages == 'Verloop van het Watergebruik':
     fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3)),row=3,col =1)    
     fig_lijn.update_layout(title_text ="Totaal verloop van het gebruik per soort water in Nederland",
                           yaxis_title = 'Totaal watergebruik (miljard m3)')
-    #Invoegen slider en knoppen
-    fig_lijn.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
-                    dict(count=2.5,
-                        label="2,5 years",
-                        step="year",
-                        stepmode="backward"),
-                    dict(count=5,
-                        label="5 years",
-                        step="year",
-                        stepmode="backward"),
-                    dict(count=7.5,
-                        label="7,5 years",
-                        step="year",
-                        stepmode="backward"),
-                    dict(count=10,
-                        label="10 years",
-                        step="year",
-                        stepmode="backward"),
-                    dict(step="all")
-                ])
-            ),
-            rangeslider=dict(
-                visible=True
-            ),
-            type="date"
-        )
-    )
     st.plotly_chart(fig_lijn)
-    #fig_lijn = px.line(df_watergebruik_jaar, x = 'Jaar', y="Totaal_gebruik", title='Totaal watergebruik van leidingwater')
+    
    
     dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
     scenario = st.selectbox( 'Scenario', ('**Scenario 1:** Alle voertuigen Elektrisch',"**Scenario 2:** Grotere accu's",'**Scenario 3:** Vergroot vermogen van de laders', '**Scenario 4:** brandstofkosten vergelijken'))
