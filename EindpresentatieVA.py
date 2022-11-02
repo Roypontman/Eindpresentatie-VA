@@ -461,7 +461,7 @@ elif pages == 'Verloop van het Watergebruik':
                                      {'label': "Industrie", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, True, False, False, False]}, {'title': 'Gebruik industrie (miljoen m3)'}]},
                                       {'label': "Landbouw", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False, False]}, {'title': 'Gebruik landbouw (miljoen m3)'}]},
                                      {'label': "Vervoer en opslag", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, True, False]}, {'title': 'Gebruik vervoer en opslag (miljoen m3)'}]},
-                                     {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, False, True]}, {'title': 'Gebruik water- en afvalbedrijven (miljoen m3)'}]}
+                                     {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, False, True]}, {'title': 'Gebruik water- en afvalbedrijven (miljoen m3)'}]}]
     fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.3,'y': 0.6,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
                 dict(buttons =[
                      dict(label="Linear",  
