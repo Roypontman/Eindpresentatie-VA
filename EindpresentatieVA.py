@@ -96,10 +96,10 @@ df_watergebruik_jaar['Totaal_gebruik_miljard_m3'] = df_watergebruik_jaar['Totaal
 df_totaal = df_watergebruik.groupby(['Jaar','Watergebruikers'])['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3'].sum()
 #df_totaal[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']] = df_totaal[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']]/1000
 df_totaal['Totaal_gebruik'] = df_totaal['Totaal_leidingwater_miljoen_m3'] + df_totaal['Totaal_grondwater_miljoen_m3'] + df_totaal['Totaal_oppervlaktewater_miljoen_m3']
+df_totaal['Totaal_gebruik_miljard_m3'] = df_totaal['Totaal_gebruik']/1000
 df_watergebruik_jaar = df_watergebruik_jaar.reset_index()
-df_watergebruik_jaar['Jaar'] = pd.to_datetime(df_watergebruik_jaar['Jaar']).dt.year
 df_totaal = df_totaal.reset_index()
-df_totaal['Jaar'] = pd.to_datetime(df_totaal['Jaar']).dt.year
+
 
 
 
@@ -445,16 +445,16 @@ elif pages == 'Verloop van het Watergebruik':
     #Boxplot
     
     #Kansdichtheid
-    group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens']['Totaal_gebruik']
-    group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw']['Totaal_gebruik']
-    group_3 = df_totaal[df_totaal['Watergebruikers'] == 'Delfstofwinning']['Totaal_gebruik']
-    group_4 = df_totaal[df_totaal['Watergebruikers'] == 'Industrie']['Totaal_gebruik']
-    group_5 = df_totaal[df_totaal['Watergebruikers'] == 'Energievoorziening']['Totaal_gebruik']
-    group_6 = df_totaal[df_totaal['Watergebruikers'] == 'Water- en afvalbedrijven']['Totaal_gebruik']
-    group_7 = df_totaal[df_totaal['Watergebruikers'] == 'Bouw']['Totaal_gebruik']
-    group_8 = df_totaal[df_totaal['Watergebruikers'] == 'Handel']['Totaal_gebruik']
-    group_9 = df_totaal[df_totaal['Watergebruikers'] == 'Vervoer en opslag']['Totaal_gebruik']
-    group_10 = df_totaal[df_totaal['Watergebruikers'] == 'Horeca']['Totaal_gebruik']
+    group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens']['Totaal_gebruik_miljard_m3']
+    group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw']['Totaal_gebruik_miljard_m3']
+    group_3 = df_totaal[df_totaal['Watergebruikers'] == 'Delfstofwinning']['Totaal_gebruik_miljard_m3']
+    group_4 = df_totaal[df_totaal['Watergebruikers'] == 'Industrie']['Totaal_gebruik_miljard_m3']
+    group_5 = df_totaal[df_totaal['Watergebruikers'] == 'Energievoorziening']['Totaal_gebruik_miljard_m3']
+    group_6 = df_totaal[df_totaal['Watergebruikers'] == 'Water- en afvalbedrijven']['Totaal_gebruik_miljard_m3']
+    group_7 = df_totaal[df_totaal['Watergebruikers'] == 'Bouw']['Totaal_gebruik_miljard_m3']
+    group_8 = df_totaal[df_totaal['Watergebruikers'] == 'Handel']['Totaal_gebruik_miljard_m3']
+    group_9 = df_totaal[df_totaal['Watergebruikers'] == 'Vervoer en opslag']['Totaal_gebruik_miljard_m3']
+    group_10 = df_totaal[df_totaal['Watergebruikers'] == 'Horeca']['Totaal_gebruik_miljard_m3']
     # Samenvoegen tot 1 lijst
     hist_data = [group_1, group_2, group_3,group_4,group_5,group_6,group_7,group_8,group_9,group_10]
     # Labels toekennen
