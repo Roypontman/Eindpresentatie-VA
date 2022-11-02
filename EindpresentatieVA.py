@@ -443,18 +443,26 @@ elif pages == 'Verloop van het Watergebruik':
     with st.expander("Zie het tabel"):
         st.dataframe(df_totaal)
     #Boxplot
-    
+    fig_box = px.box(histdata,y = 'Totaal_gebruik_miljard_m3', color = 'Watergebruikers')
+    fig_box.update_layout(
+    title = 'Range of body mass per Penguin specie',
+    xaxis_title = 'Penguin species',
+    yaxis_title = 'Body mass of penguins (g)',
+    legend_title = 'Species'
+    )
+    fig_box.update_xaxes(categoryorder ='array')
+    st.plotly_chart(fig_box)
     #Kansdichtheid
-    group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens']['Totaal_gebruik_miljard_m3']
-    group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw']['Totaal_gebruik_miljard_m3']
-    group_3 = df_totaal[df_totaal['Watergebruikers'] == 'Delfstofwinning']['Totaal_gebruik_miljard_m3']
-    group_4 = df_totaal[df_totaal['Watergebruikers'] == 'Industrie']['Totaal_gebruik_miljard_m3']
-    group_5 = df_totaal[df_totaal['Watergebruikers'] == 'Energievoorziening']['Totaal_gebruik_miljard_m3']
-    group_6 = df_totaal[df_totaal['Watergebruikers'] == 'Water- en afvalbedrijven']['Totaal_gebruik_miljard_m3']
-    group_7 = df_totaal[df_totaal['Watergebruikers'] == 'Bouw']['Totaal_gebruik_miljard_m3']
-    group_8 = df_totaal[df_totaal['Watergebruikers'] == 'Handel']['Totaal_gebruik_miljard_m3']
-    group_9 = df_totaal[df_totaal['Watergebruikers'] == 'Vervoer en opslag']['Totaal_gebruik_miljard_m3']
-    group_10 = df_totaal[df_totaal['Watergebruikers'] == 'Horeca']['Totaal_gebruik_miljard_m3']
+    group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens']['Totaal_gebruik_miljard_m3','Jaar']
+    group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw']['Totaal_gebruik_miljard_m3','Jaar']
+    group_3 = df_totaal[df_totaal['Watergebruikers'] == 'Delfstofwinning']['Totaal_gebruik_miljard_m3','Jaar']
+    group_4 = df_totaal[df_totaal['Watergebruikers'] == 'Industrie']['Totaal_gebruik_miljard_m3','Jaar']
+    group_5 = df_totaal[df_totaal['Watergebruikers'] == 'Energievoorziening']['Totaal_gebruik_miljard_m3','Jaar']
+    group_6 = df_totaal[df_totaal['Watergebruikers'] == 'Water- en afvalbedrijven']['Totaal_gebruik_miljard_m3','Jaar']
+    group_7 = df_totaal[df_totaal['Watergebruikers'] == 'Bouw']['Totaal_gebruik_miljard_m3','Jaar']
+    group_8 = df_totaal[df_totaal['Watergebruikers'] == 'Handel']['Totaal_gebruik_miljard_m3','Jaar']
+    group_9 = df_totaal[df_totaal['Watergebruikers'] == 'Vervoer en opslag']['Totaal_gebruik_miljard_m3','Jaar']
+    group_10 = df_totaal[df_totaal['Watergebruikers'] == 'Horeca']['Totaal_gebruik_miljard_m3','Jaar']
     # Samenvoegen tot 1 lijst
     hist_data = [group_1, group_2, group_3,group_4,group_5,group_6,group_7,group_8,group_9,group_10]
     # Labels toekennen
@@ -468,7 +476,7 @@ elif pages == 'Verloop van het Watergebruik':
                    'rgb(105,139,105)','rgb(255,128,0)','rgb(139,34,82)',
                    'rgb(75,0,130)']
     # Plotten
-    fig_kans = ff.create_distplot(hist_data, group_labels, colors=water_color,bin_size=10)
+    fig_kans = px.bar(hist_data, group_labels, colors=water_color,bin_size=10)
     fig_kans.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
     fig_kans.update_layout(
         title = 'De dichtheid van totaal gebruik per soort gebruiker',
