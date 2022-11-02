@@ -442,16 +442,6 @@ elif pages == 'Verloop van het Watergebruik':
     st.plotly_chart(fig_lijn)
     with st.expander("Zie het tabel"):
         st.dataframe(df_totaal)
-    #Boxplot
-    fig_box = px.box(histdata,y = 'Totaal_gebruik_miljard_m3', color = 'Watergebruikers')
-    fig_box.update_layout(
-    title = 'Range of body mass per Penguin specie',
-    xaxis_title = 'Penguin species',
-    yaxis_title = 'Body mass of penguins (g)',
-    legend_title = 'Species'
-    )
-    fig_box.update_xaxes(categoryorder ='array')
-    st.plotly_chart(fig_box)
     #Kansdichtheid
     group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens']['Totaal_gebruik_miljard_m3','Jaar']
     group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw']['Totaal_gebruik_miljard_m3','Jaar']
