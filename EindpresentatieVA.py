@@ -106,8 +106,23 @@ df_totaal = df_totaal.reset_index()
 
 # ## Streamlit Code
 
-# In[ ]:
+# ### Achtergrond invoegen
+def add_bg_from_url():
+    st.markdown(
+         f"""
+         <style>
+         .stApp {{
+             background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwallpapic.nl%2Fwater&psig=AOvVaw2rZxffGcn_VUsFmQBdfylE&ust=1667494789263000&source=images&cd=vfe&ved=0CA4QjhxqFwoTCLDZ5bD8j_sCFQAAAAAdAAAAABAD");
+             background-attachment: fixed;
+             background-size: cover;
+             opacity: 0.55
+         }}
+         </style>
+         """,
+         unsafe_allow_html=True
+     )
 
+add_bg_from_url() 
 
 pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik', 'Toekomstig watergebruik'))
 
