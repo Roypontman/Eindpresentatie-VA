@@ -499,7 +499,7 @@ elif pages == 'Verloop van het Watergebruik':
           'font': {'size': 18, 'color': 'Black'},
           'bgcolor': 'rgb(210, 210, 210)', 'showarrow': False}
         df_totaal1 = df_totaal.loc[df_totaal['Watergebruikers'] == input]
-        df_totaal1 = df_totaal1.reset_index()
+        df_totaal1 = df_totaal1.reset_index(drop= True)
         st.dataframe(df_totaal1)
         fig_lijn_totaal_sector = go.Figure()
         fig_lijn_totaal_sector.add_trace( go.Scatter(x=list(df_totaal1.Jaar), y=list(df_totaal1.Totaal_gebruik)))
