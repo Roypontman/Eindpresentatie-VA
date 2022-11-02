@@ -95,7 +95,7 @@ df_watergebruik_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum()
 df_watergebruik_jaar['Totaal_gebruik'] = df_watergebruik_jaar['Totaal_gebruik']/1000
 df_watergebruiksoort_jaar = df_watergebruik.groupby(['Jaar','Watergebruikers'])['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3'].sum()
 df_watergebruiksoort_jaar[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']] = df_watergebruiksoort_jaar[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']]/1000
-df_totaal = df_watergebruiksoort_jaar.merge(df_watergebruik_jaar, on ='Jaar')
+df_totaal = df_watergebruiksoort_jaar.merge(df_watergebruik_jaar, on = ['Jaar','Watergebruikers'])
 # ###Bewerken data bodemgebruik
 
 # ## Streamlit Code
