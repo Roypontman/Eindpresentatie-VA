@@ -468,7 +468,7 @@ elif pages == 'Verloop van het Watergebruik':
                    'rgb(105,139,105)','rgb(255,128,0)','rgb(139,34,82)',
                    'rgb(75,0,130)']
     # Plotten
-    fig_kans = ff.create_distplot(hist_data, group_labels, colors=water_color)
+    fig_kans = ff.create_distplot(hist_data, group_labels, colors=water_color,bin_size=10)
     fig_kans.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
     fig_kans.update_layout(
         title = 'De dichtheid van totaal gebruik per soort gebruiker',
