@@ -435,23 +435,26 @@ elif pages == 'Verloop van het Watergebruik':
         st.dataframe(df_totaal)
     #Boxplot
     
-    #Kansdichtheid 
-    group_1 = df_totaal[df_totaal['species'] == 'Adelie']['flipper_length_mm']
-    group_2 = df_totaal[df_totaal['species'] == 'Gentoo']['flipper_length_mm']
-    group_3 = df_totaal[df_totaal['species'] == 'Chinstrap']['flipper_length_mm']
+    #Kansdichtheid
+    number2 = st.number_input('Voer een jaar in', min_value=2003, max_value=2020, value=2003, step=1)
+    df_totaal = df_totaal.loc[df_totaal['Jaar'] == number2]
+    df_totaal.reset_index(inplace=True,drop=True)
+    group_1 = df_totaal[df_totaal['Jaar'] == number2]['Totaal_leidingwater_miljoen_m3']
+    group_2 = df_totaal[df_totaal['Jaar'] == number2]['Totaal_grondwater_miljoen_m3']
+    group_3 = df_totaal[df_totaal['Jaar'] == number2]['Totaal_oppervlaktewater_miljoen_m3']
     # Samenvoegen tot 1 lijst
     hist_data = [group_1, group_2, group_3]
     # Labels toekennen
-    group_labels = ['Adelie', 'Gentoo','Chinstrap']
+    group_labels = ['Totaal leidingwater', 'Totaal grondwater','Totaal oppervlaktewater']
     # Kleuren uitkiezen
-    species_color = ['rgb(0,0,255)','rgb(255,0,0)','rgb(10,230,10)']
+    water_color = ['rgb(0,0,255)','rgb(255,0,0)','rgb(10,230,10)']
     # Plotten
-    fig = ff.create_distplot(hist_data, group_labels, colors=species_color)
-    fig.update_layout(
-        title = 'The density of flipper lengths per penguin specie',
-        xaxis_title = 'Flipperlength (mm)',
-        legend_title = 'Species')
-    
+    fig_kans = ff.create_distplot(hist_data, group_labels, colors=water_color)
+    fig_kans.update_layout(
+        title = 'De dichtheid van elk soort water per gekozen jaar',
+        xaxis_title = 'Soort water',
+        legend_title = 'Jaar')
+    st.plotly_chart(fig_kans)
     
     
     
