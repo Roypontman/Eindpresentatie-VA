@@ -90,6 +90,9 @@ df_watergebruik.rename(columns={'TotaalLeidingwater_1': 'Totaal_leidingwater_mil
 df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.date
 df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.year
 # Groeperen op gebruik per jaar
+df_watergebruik['Totaal_gebruik'] = df_watergebruik['Totaal_leidingwater_miljoen_m3'] + df_watergebruik['Totaal_grondwater_miljoen_m3'] + df_watergebruik['Totaal_oppervlaktewater_miljoen_m3']
+df_watergebruik_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3', 'Totaal_oppervlaktewater_miljoen_m3','Totaal_gebruik'].sum()
+df_watergebruik_jaar['Totaal_gebruik_miljard_m3'] = df_watergebruik_jaar['Totaal_gebruik']/1000
 df_totaal = df_watergebruik.groupby(['Jaar','Watergebruikers'])['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3'].sum()
 #df_totaal[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']] = df_totaal[['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3','Totaal_oppervlaktewater_miljoen_m3']]/1000
 df_totaal['Totaal_gebruik'] = df_totaal['Totaal_leidingwater_miljoen_m3'] + df_totaal['Totaal_grondwater_miljoen_m3'] + df_totaal['Totaal_oppervlaktewater_miljoen_m3']
@@ -390,7 +393,7 @@ elif pages == 'Verloop van het Watergebruik':
     st.markdown("Op deze pagina wordt het verloop van het watergebruik in Nederland weergegeven over de jaren van 2003 tot en met 2020.")
     st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
     fig_lijn_totaal = go.Figure()
-    fig_lijn_totaal.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_gebruik)))
+    fig_lijn_totaal.add_trace( go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_gebruik)))
     fig_lijn_totaal.update_layout(title_text ="Totaal verloop watergebruik in Nederland",
                           yaxis_title = 'Totaal watergebruik (miljard m3)')
     #Invoegen slider en knoppen
@@ -424,9 +427,9 @@ elif pages == 'Verloop van het Watergebruik':
     st.markdown("In de bovenstaande visualisatie valt op dat er geen grote stijging of daling van het gebruik over de jaren heen is. Het verschil in gebruik ligt nog op hetzelfde niveau")
     # Lijn per soort water (leiding-, grond- of oppervlaktewater)    
     fig_lijn = make_subplots(rows = 3, cols = 1, shared_xaxes = True)
-    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3), name = 'Totaal leidingwater(miljoen m3)'),row=1,col =1)
-    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3), name = 'Totaal grondwater (miljoen m3)'),row=2,col =1)
-    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3), name = 'Totaal oppervlaktewater (miljoen m3)'),row=3,col =1)    
+    fig_lijn.add_trace(go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_leidingwater_miljoen_m3), name = 'Totaal leidingwater(miljoen m3)'),row=1,col =1)
+    fig_lijn.add_trace(go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_grondwater_miljoen_m3), name = 'Totaal grondwater (miljoen m3)'),row=2,col =1)
+    fig_lijn.add_trace(go.Scatter(x=list(df_watergebruik_jaar.Jaar), y=list(df_watergebruik_jaar.Totaal_oppervlaktewater_miljoen_m3), name = 'Totaal oppervlaktewater (miljoen m3)'),row=3,col =1)    
     fig_lijn.update_layout(title_text ="Totaal verloop van het gebruik per soort water in Nederland")
     fig_lijn.update_yaxes(title_text="Totaal watergebruik (miljard m3)", row = 2, col = 1)
     st.plotly_chart(fig_lijn)
