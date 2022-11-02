@@ -443,7 +443,7 @@ elif pages == 'Verloop van het Watergebruik':
     with st.expander("Zie het tabel"):
         st.dataframe(df_totaal)
     # Boxplot
-    fig_box = px.box(df_watergebruik_jaar, x = 'Watergebruikers', y ='Totaal_gebruik_miljard_m3', color = 'Watergebruikers')
+    fig_box = px.box(df_totaal, x = 'Watergebruikers', y ='Totaal_gebruik_miljard_m3', color = 'Watergebruikers')
     fig_box.update_layout(
     title = 'Spreiding van het watergebruik per soort sector',
     xaxis_title = 'Watergebruikers',
