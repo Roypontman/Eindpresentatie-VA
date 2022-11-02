@@ -462,7 +462,7 @@ elif pages == 'Verloop van het Watergebruik':
                                      {'label': "Vervoer en opslag", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False, False]}, {'title': 'Spreiding van het totaal watergebruik vervoer en opslag (miljoen m3)'}]},
                                      {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, True, False]}, {'title': 'Spreiding van het totaal watergebruik water- en afvalbedrijven(miljoen m3)'}]},
                                      {'label': "Bouw", 'method': "update",'args': [{"visible": [True, False, False, False, False, False, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik bouw (miljoen m3)'}]}]
-    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.20,'y': 0.45,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
+    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.55,'y': 0.25,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
                 dict(buttons =[
                      dict(label="Linear",  
                           method="relayout", 
@@ -472,10 +472,42 @@ elif pages == 'Verloop van het Watergebruik':
                           args=[{"yaxis.type": "log"}]),
                                   ])]})
     st.plotly_chart(fig_box)
-    
-    
-    
-    
+    with st.expander("Filter gekozen sector om alle gebruiken te zien"):
+        input = st.text_input('Geef een watergebruiker op','Bijvoorbeeld: Horeca', max_chars=25 
+        df_totaal1 = df_totaal.loc[df_totaal['Watergebruikers'] == input]
+        st.dataframe(df_totaal1)
+        fig_lijn_totaal_sector = go.Figure()
+        fig_lijn_totaal_sector.add_trace( go.Scatter(x=list(df_totaal1.Jaar), y=list(df_totaal1.Totaal_gebruik)))
+        fig_lijn_totaal_sector.update_layout(title_text ="Totaal verloop watergebruik van de sector {input} in Nederland",
+                          yaxis_title = 'Totaal watergebruik in de {input} (miljard m3)')
+        #Invoegen slider en knoppen
+        fig_lijn_totaal_sector.update_layout(xaxis=dict(rangeselector=dict(buttons=list([
+                        dict(count=2.5,
+                            label="2,5 years",
+                            step="year",
+                            stepmode="backward"),
+                        dict(count=5,
+                            label="5 years",
+                            step="year",
+                            stepmode="backward"),
+                        dict(count=7.5,
+                            label="7,5 years",
+                            step="year",
+                            stepmode="backward"),
+                        dict(count=10,
+                            label="10 years",
+                            step="year",
+                            stepmode="backward"),
+                        dict(step="all")
+                    ])
+                ),
+                rangeslider=dict(
+                    visible=True
+                ),
+                type="date"
+                )
+            )
+          st.plotly_chart(fig_lijn_totaal_sector)
     dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
     scenario = st.selectbox( 'Scenario', ('**Scenario 1:** Alle voertuigen Elektrisch',"**Scenario 2:** Grotere accu's",'**Scenario 3:** Vergroot vermogen van de laders', '**Scenario 4:** brandstofkosten vergelijken'))
     if dataset == 'Allevoertuigen':
