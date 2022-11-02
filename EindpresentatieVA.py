@@ -447,7 +447,7 @@ elif pages == 'Verloop van het Watergebruik':
     fig_box.update_layout(
     title = 'Spreiding van het watergebruik per soort sector',
     xaxis_title = 'Watergebruikers',
-    yaxis_title = 'Totaal gebruik (miljard_m3)',
+    yaxis_title = 'Totaal gebruik (miljoen m3)',
     legend_title = 'Watergebruikers'
     )
     fig_box.update_xaxes(categoryorder ='array')
@@ -462,7 +462,7 @@ elif pages == 'Verloop van het Watergebruik':
                                       {'label': "Landbouw", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False, False]}, {'title': 'Gebruik landbouw (miljoen m3)'}]},
                                      {'label': "Vervoer en opslag", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, True, False]}, {'title': 'Gebruik vervoer en opslag (miljoen m3)'}]},
                                      {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, False, True]}, {'title': 'Gebruik water- en afvalbedrijven (miljoen m3)'}]}]
-    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.3,'y': 0.6,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
+    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.35,'y': 0.75,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
                 dict(buttons =[
                      dict(label="Linear",  
                           method="relayout", 
