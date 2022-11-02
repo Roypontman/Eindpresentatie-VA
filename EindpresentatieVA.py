@@ -507,7 +507,7 @@ elif pages == 'Verloop van het Watergebruik':
                 type="date"
                 )
             )
-          st.plotly_chart(fig_lijn_totaal_sector)
+         st.plotly_chart(fig_lijn_totaal_sector)
     dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
     scenario = st.selectbox( 'Scenario', ('**Scenario 1:** Alle voertuigen Elektrisch',"**Scenario 2:** Grotere accu's",'**Scenario 3:** Vergroot vermogen van de laders', '**Scenario 4:** brandstofkosten vergelijken'))
     if dataset == 'Allevoertuigen':
