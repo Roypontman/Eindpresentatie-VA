@@ -9,8 +9,7 @@
 # ## Inladen Packages
 
 # In[2]:
-
-
+from PIL import Image
 import pandas as pd
 import geopandas as gpd
 import numpy as np
@@ -110,12 +109,13 @@ df_totaal = df_totaal.reset_index()
 # In[ ]:
 
 
-pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik', 'Ritteninformatie datasets'))
+pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik', 'Toekomstig watergebruik'))
 
 if pages == 'Home':
     st.title("**Bodem- en watergebruik in Nederland**")
-    st.markdown("Met dit dashboard wordt geprobeerd een zo een compleet mogelijk beeld te weergeven van de ontwikkeling van de energievraag van logistieke bedrijven en de knelpunten in het netwerk. Omdat er al een tekort is aan capaciteit op het elektriciteitsnetwerk, is de verwachting dat de aanleg van nieuwe aansluitingen door de netbeheerder tot wel 8 jaar kan duren. Daarom is het belangrijk om nu alvast in kaart te brengen wat de verwachtte energievraag is (hoeveel, waar en wanneer) in de toekomstige situatie zodat we ons op tijd kunnen voorbereiden en logistieke vervoerders niet hoeven te wachten met het aanschaffen van elektrische voertuigen omdat er onvoldoende netwerkcapaciteit beschikbaar is. Dat zou de energietransitie onnodig remmen.")
-
+    st.markdown("Met dit dashboard wordt geprobeerd het bodem- en watergerbuik in Nederland in kaart te krijgen. Door middel van datasets van CBS zijn jaargebruiken opgehaald en geanalyseerd. In de linker ribbon kunt u zich bewegen door het dashboard door middel van een dropdown. In deze dropdown is er een keuze te maken tussen het bodemgebruik, het watergebruik, het verloop van het watergebruik en het toekomstige watergebruik.")
+    image = Image.open('Water.jpg')
+    st.image(image, caption='De basis is water')
     #st.markdown("Welkom op het dashboard van groep 22. Gebruik de knoppen in de sidebar om tussen de verschillende paginas te navigeren. ")
 
 
@@ -462,7 +462,7 @@ elif pages == 'Verloop van het Watergebruik':
                                      {'label': "Vervoer en opslag", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, True, False, False]}, {'title': 'Spreiding van het totaal watergebruik vervoer en opslag (miljoen m3)'}]},
                                      {'label': "Water- en afvalbedrijven", 'method': "update",'args': [{"visible": [False, False, False, False, False, False, False, False, False, True, False]}, {'title': 'Spreiding van het totaal watergebruik water- en afvalbedrijven(miljoen m3)'}]},
                                      {'label': "Bouw", 'method': "update",'args': [{"visible": [True, False, False, False, False, False, False, False, False, False, False]}, {'title': 'Spreiding van het totaal watergebruik bouw (miljoen m3)'}]}]
-    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.55,'y': 0.25,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
+    fig_box.update_layout({'updatemenus':[{'type': "dropdown",'x': 1.5,'y': 0.2,'showactive': True,'active': 0,'buttons': dropdown_buttons_gebruikers},
                 dict(buttons =[
                      dict(label="Linear",  
                           method="relayout", 
@@ -477,7 +477,7 @@ elif pages == 'Verloop van het Watergebruik':
         st.markdown("De sectoren waarvan het gebruik bekend is zijn: Landbouw, Huishoudens, Delfstofwinning, Industrie, Energievoorziening, Water- en afvalbedrijven, Bouw, Handel, Vervoer en opslag, Horeca.")
         input = st.text_input('Geef een watergebruiker op','Bijvoorbeeld: Horeca', max_chars=25)
         message_annotation = {
-          'x': 0.5, 'y':1.05, 'xref': 'paper', 'yref': 'paper',
+          'x': 0.5, 'y':1.1, 'xref': 'paper', 'yref': 'paper',
           'text': f'Totaal watergebruik in de {input} (miljard m3)',
           'font': {'size': 18, 'color': 'Black'},
           'bgcolor': 'rgb(210, 210, 210)', 'showarrow': False}
@@ -485,106 +485,8 @@ elif pages == 'Verloop van het Watergebruik':
         st.dataframe(df_totaal1)
         fig_lijn_totaal_sector = go.Figure()
         fig_lijn_totaal_sector.add_trace( go.Scatter(x=list(df_totaal1.Jaar), y=list(df_totaal1.Totaal_gebruik)))
-        fig_lijn_totaal_sector.update_layout( {'annotations':[message_annotation]}, yaxis_title = 'Totaal watergebruik in de sector (miljard m3)')
+        fig_lijn_totaal_sector.update_layout( {'annotations':[message_annotation]}, yaxis_title = 'Totaal watergebruik in de sector (miljoen m3)')
         #Invoegen slider en knoppen
         fig_lijn_totaal_sector.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
         st.plotly_chart(fig_lijn_totaal_sector)
-    dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
-    scenario = st.selectbox( 'Scenario', ('**Scenario 1:** Alle voertuigen Elektrisch',"**Scenario 2:** Grotere accu's",'**Scenario 3:** Vergroot vermogen van de laders', '**Scenario 4:** brandstofkosten vergelijken'))
-    if dataset == 'Allevoertuigen':
-        merged_df_voertuig = AlleVoertuigen_merged_df.loc[AlleVoertuigen_merged_df['voertuig_id'] == number_2]
-
-        merged_df_voertuig.reset_index(drop=True, inplace=True)
-        if merged_df_voertuig['Voertuig'][0] == 'Bestelbus':
-            simulatie_bestelbus_allevoertuigen_input = simulate(merged_df_voertuig,
-                          zuinig = 0.2, 
-                          aansluittijd = 600, 
-                          battery = 60, 
-                          laadvermogen_bedrijfsterrein = 22, 
-                          laadvermogen_snelweg = 80)
-            simulatie_dataframe_allevoertuigen  = simulatie_bestelbus_allevoertuigen_input
-
-        if merged_df_voertuig['Voertuig'][0] == 'Vrachtwagen':
-            simulatie_vrachtwagen_allevoertuigen_input = simulate(merged_df_voertuig,
-                          zuinig = 1, 
-                          aansluittijd = 600,
-                          battery = 300,
-                          laadvermogen_bedrijfsterrein = 43,
-                          laadvermogen_snelweg = 150)
-            simulatie_dataframe_allevoertuigen  = simulatie_bestelbus_allevoertuigen_input
-        
-        if scenario == '**Scenario 1:** Alle voertuigen Elektrisch':
-            st.markdown("**Scenario 1:** Alle EV's Elektrisch")
-            st.dataframe(simulatie_vrachtwagen_allevoertuigen)
-            #st.plotly_chart(fig_euro_Dec)
-            #st.plotly_chart(fig_bijladen)
-            #st.plotly_chart(fig_stop)
-        elif scenario == "**Scenario 2:** Grotere accu's":
-            st.markdown("**Scenario 2:** Grotere accu's")
-            st.markdown("Dubbel vermogen op de batterij betekent dat er weinig tot nooit meer moet worden geladen op de snelweg")
-            st.markdown("Enkel batterijvermogen Dataframe")
-            st.dataframe(simulatie_dataframe_allevoertuigens[['Afstand', 'energie_beginstand', 'bijladen_bedrijfsterrein', 'laadplek', 'laadtijd', 'totale_kosten_bijladen(Euro)']])
-            st.markdown("Dubbel batterijvermogen Dataframe")
-            st.dataframe(allevoertuigen_dubbel_batterij[['Afstand','energie_beginstand', 'bijladen_bedrijfsterrein', 'laadplek', 'laadtijd', 'totale_kosten_bijladen(Euro)']])
-            #st.plotly_chart(fig_energie_dubbel_batterij)
-            #st.plotly_chart(fig_energie_dubbel_vermogen)
-        elif scenario == "**Scenario 3:** Vergroot vermogen van de laders":
-            st.markdown("**Scenario 3:** Vergroot vermogen van de laders")
-            st.markdown("Snelweglaadvermogen op het bedrijfsterrein betekent dat er in de nacht sneller geladen kan worden. De laadtijd op het bedrijfsterrein is bijna 4 keer zo snel. Daarnaast kan, als de bezoektijd lang genoeg is, vaak sneller en meer geladen worden als het laadvermogen op het bedrijfsterrein net zo snel is als op de snelweg")
-            st.markdown("Gecombineerd oplaadvermogen Dataframe")
-            st.dataframe(simulatie_allevoertuigen_laadtijd_cleaned)
-            #st.plotly_chart(fig_energie_dubbel_vermogen)
-            #st.plotly_chart(fig_energie_dubbel_vermogen_Dec)
-        elif scenario == "**Scenario 4:** brandstofkosten vergelijken":
-            st.dataframe(df_totale_kosten_plus_waterstof)
-            st.markdown("**Scenario 4:** brandstofkosten vergelijken")
-            st.markdown("Groot verschil tussen alle brandstoffen")
-            #st.plotly_chart(fig_kosten)
-    if dataset == 'December':
-        merged_df_december = december_merged_df.loc[december_merged_df['voertuig_id'] == number_2]
-        merged_df_december.reset_index(drop=True, inplace=True)
-
-        if merged_df_december['Voertuig'][0] == 'Bestelbus':
-            simulatie_bestelbus_december_input = simulate(merged_df_december,
-                          zuinig = 0.2, 
-                          aansluittijd = 600, 
-                          battery = 60, 
-                          laadvermogen_bedrijfsterrein = 22, 
-                          laadvermogen_snelweg = 80)
-            simulatie_dataframe_december = simulatie_bestelbus_december_input
-
-        if merged_df_december['Voertuig'][0] == 'Vrachtwagen':
-            simulatie_vrachtwagen_december_input = simulate(merged_df_december,
-                          zuinig = 1, 
-                          aansluittijd = 600,
-                          battery = 300,
-                          laadvermogen_bedrijfsterrein = 43,
-                          laadvermogen_snelweg = 150)
-            simulatie_dataframe_december = simulatie_vrachtwagen_december_input
-            
-        if scenario == '**Scenario 1:** Alle voertuigen Elektrisch':
-            st.markdown("**Scenario 1:** Alle EV's Elektrisch")
-            st.dataframe(simulatie_vrachtwagen_allevoertuigen)
-            #st.plotly_chart(fig_euro_Dec)
-            #st.plotly_chart(fig_bijladen)
-            #st.plotly_chart(fig_stop)
-        elif scenario == "**Scenario 2:** Grotere accu's":
-            st.markdown("**Scenario 2:** Grotere accu's")
-            st.markdown("Dubbel vermogen op de batterij betekent dat er weinig tot nooit meer moet worden geladen op de snelweg")
-            st.markdown("Enkel batterijvermogen Dataframe")
-            st.dataframe(simulatie_dataframe_december[['Afstand', 'energie_beginstand', 'bijladen_bedrijfsterrein', 'laadplek', 'laadtijd', 'totale_kosten_bijladen(Euro)']])
-            st.markdown("Dubbel batterijvermogen Dataframe")
-            st.dataframe(december_dubbel_batterij[['Afstand', 'energie_beginstand', 'bijladen_bedrijfsterrein', 'laadplek', 'laadtijd', 'totale_kosten_bijladen(Euro)']])
-            #st.plotly_chart(fig_energie_dubbel_batterij)
-            #st.plotly_chart(fig_energie_dubbel_vermogen)
-        elif scenario == "**Scenario 3:** Vergroot vermogen van de laders":
-            st.markdown("**Scenario 3:** Vergroot vermogen van de laders")
-            st.markdown("Snelweglaadvermogen op het bedrijfsterrein betekent dat er in de nacht sneller geladen kan worden. De laadtijd op het bedrijfsterrein is bijna 4 keer zo snel. Daarnaast kan, als de bezoektijd lang genoeg is, vaak sneller en meer geladen worden als het laadvermogen op het bedrijfsterrein net zo snel is als op de snelweg")
-            st.dataframe(simulatie_december_laadtijd_cleaned)
-            #st.plotly_chart(fig_energie_dubbel_vermogen)
-            #st.plotly_chart(fig_energie_dubbel_vermogen_Dec)
-        elif scenario == "**Scenario 4:** brandstofkosten vergelijken":
-            st.markdown("**Scenario 4:** brandstofkosten vergelijken")
-            st.markdown("Groot verschil tussen alle brandstoffen")
-            st.dataframe(df_totale_kosten_plus_waterstof)
-
+elif pages == 'Toekomstig watergebruik':    
