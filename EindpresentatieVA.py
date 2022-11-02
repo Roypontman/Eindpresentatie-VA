@@ -473,7 +473,7 @@ elif pages == 'Verloop van het Watergebruik':
                                   ])]})
     st.plotly_chart(fig_box)
     with st.expander("Filter gekozen sector om alle gebruiken te zien"):
-        input = st.text_input('Geef een watergebruiker op','Bijvoorbeeld: Horeca', max_chars=25 
+        input = st.text_input('Geef een watergebruiker op','Bijvoorbeeld: Horeca', max_chars=25) 
         df_totaal1 = df_totaal.loc[df_totaal['Watergebruikers'] == input]
         st.dataframe(df_totaal1)
         fig_lijn_totaal_sector = go.Figure()
