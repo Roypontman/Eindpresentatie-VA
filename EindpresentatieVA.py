@@ -391,7 +391,7 @@ elif pages == 'Verloop van het Watergebruik':
     st.markdown("Op deze pagina wordt het verloop van het watergebruik in Nederland weergegeven over de jaren van 2003 tot en met 2020.")
     st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
     fig_lijn_totaal = go.Figure()
-    fig_lijn_totaal.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_gebruik),trendline="ols"))
+    fig_lijn_totaal.add_trace( go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_gebruik)))
     fig_lijn_totaal.update_layout(title_text ="Totaal verloop watergebruik in Nederland",
                           yaxis_title = 'Totaal watergebruik (miljard m3)')
     #Invoegen slider en knoppen
@@ -425,14 +425,39 @@ elif pages == 'Verloop van het Watergebruik':
     st.markdown("In de bovenstaande visualisatie valt op dat er geen grote stijging of daling van het gebruik over de jaren heen is. Het verschil in gebruik ligt nog op hetzelfde niveau")
     # Lijn per soort water (leiding-, grond- of oppervlaktewater)    
     fig_lijn = make_subplots(rows = 3, cols = 1, shared_xaxes = True)
-    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3), trendline="ols", name = 'Totaal leidingwater(miljoen m3)'),row=1,col =1)
-    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3), trendline="ols", name = 'Totaal grondwater (miljoen m3)'),row=2,col =1)
-    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3), trendline="ols", name = 'Totaal oppervlaktewater (miljoen m3)'),row=3,col =1)    
+    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3), name = 'Totaal leidingwater(miljoen m3)'),row=1,col =1)
+    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_grondwater_miljoen_m3), name = 'Totaal grondwater (miljoen m3)'),row=2,col =1)
+    fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_oppervlaktewater_miljoen_m3), name = 'Totaal oppervlaktewater (miljoen m3)'),row=3,col =1)    
     fig_lijn.update_layout(title_text ="Totaal verloop van het gebruik per soort water in Nederland")
     fig_lijn.update_yaxes(title_text="Totaal watergebruik (miljard m3)", row = 2, col = 1)
     st.plotly_chart(fig_lijn)
+    with st.expander("Zie het tabel"):
+        st.dataframe(df_totaal)
+    #Boxplot
     
-   
+    #Kansdichtheid 
+    group_1 = df_totaal[df_totaal['species'] == 'Adelie']['flipper_length_mm']
+    group_2 = df_totaal[df_totaal['species'] == 'Gentoo']['flipper_length_mm']
+    group_3 = df_totaal[df_totaal['species'] == 'Chinstrap']['flipper_length_mm']
+    # Samenvoegen tot 1 lijst
+    hist_data = [group_1, group_2, group_3]
+    # Labels toekennen
+    group_labels = ['Adelie', 'Gentoo','Chinstrap']
+    # Kleuren uitkiezen
+    species_color = ['rgb(0,0,255)','rgb(255,0,0)','rgb(10,230,10)']
+    # Plotten
+    fig = ff.create_distplot(hist_data, group_labels, colors=species_color)
+    fig.update_layout(
+        title = 'The density of flipper lengths per penguin specie',
+        xaxis_title = 'Flipperlength (mm)',
+        legend_title = 'Species')
+    
+    
+    
+    
+    
+    
+    
     dataset = st.selectbox('Datasets', ('December', 'Allevoertuigen'))
     scenario = st.selectbox( 'Scenario', ('**Scenario 1:** Alle voertuigen Elektrisch',"**Scenario 2:** Grotere accu's",'**Scenario 3:** Vergroot vermogen van de laders', '**Scenario 4:** brandstofkosten vergelijken'))
     if dataset == 'Allevoertuigen':
