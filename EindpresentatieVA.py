@@ -58,12 +58,14 @@ for i,column in df_watergebruik.iterrows():
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Delfstofwinning'
     if column['Watergebruikers'] == '307500':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Industrie'
-    if column['Watergebruikers'] == '307600':
-        df_watergebruik.loc[i, 'Watergebruikers'] = 'Voedselwinning'
     if column['Watergebruikers'] == '346600':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Energievoorziening'
     if column['Watergebruikers'] == '348000':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Water- en afvalbedrijven'
+    if column['Watergebruikers'] == '350000':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Bouw'
+    if column['Watergebruikers'] == '354200':
+        df_watergebruik.loc[i, 'Watergebruikers'] = 'Handel'
     if column['Watergebruikers'] == '383100':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Vervoer en opslag'
     if column['Watergebruikers'] == '389100':
