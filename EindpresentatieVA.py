@@ -451,6 +451,15 @@ elif pages == 'Verloop van het Watergebruik':
     legend_title = 'Watergebruikers'
     )
     fig_box.update_xaxes(categoryorder ='array')
+    fig_box.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]})
     st.plotly_chart(fig_box)
     
     
