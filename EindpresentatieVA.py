@@ -489,4 +489,8 @@ elif pages == 'Verloop van het Watergebruik':
         #Invoegen slider en knoppen
         fig_lijn_totaal_sector.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
         st.plotly_chart(fig_lijn_totaal_sector)
-elif pages == 'Toekomstig watergebruik':    
+elif pages == 'Toekomstig watergebruik':
+  st.subheader("Het toekomstige watergebruik in Nederland")
+  st.markdown("Op deze pagina wordt een voorspelling gedaan van het watergebruik in Nederland in de toekomst.")
+  st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
+  
