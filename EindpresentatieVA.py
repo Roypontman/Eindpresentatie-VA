@@ -485,12 +485,12 @@ elif pages == 'Verloop van het Watergebruik':
     st.plotly_chart(fig_kans)
     
     # Boxplot
-    fig_box = px.box(histdata,y = 'Totaal_gebruik_miljard_m3', color = 'Watergebruikers')
+    fig_box = px.box(df_watergebruik_jaar, x = 'Watergebruikers', y ='Totaal_gebruik_miljard_m3', color = 'Watergebruikers')
     fig_box.update_layout(
-    title = 'Range of body mass per Penguin specie',
-    xaxis_title = 'Penguin species',
-    yaxis_title = 'Body mass of penguins (g)',
-    legend_title = 'Species'
+    title = 'Spreiding van het watergebruik per soort sector',
+    xaxis_title = 'Watergebruikers',
+    yaxis_title = 'Totaal gebruik (miljard_m3)',
+    legend_title = 'Watergebruikers'
     )
     fig_box.update_xaxes(categoryorder ='array')
     st.plotly_chart(fig_box)
