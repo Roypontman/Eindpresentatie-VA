@@ -443,16 +443,16 @@ elif pages == 'Verloop van het Watergebruik':
     with st.expander("Zie het tabel"):
         st.dataframe(df_totaal)
     #Kansdichtheid
-    group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens']['Totaal_gebruik_miljard_m3','Jaar']
-    group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw']['Totaal_gebruik_miljard_m3','Jaar']
-    group_3 = df_totaal[df_totaal['Watergebruikers'] == 'Delfstofwinning']['Totaal_gebruik_miljard_m3','Jaar']
-    group_4 = df_totaal[df_totaal['Watergebruikers'] == 'Industrie']['Totaal_gebruik_miljard_m3','Jaar']
-    group_5 = df_totaal[df_totaal['Watergebruikers'] == 'Energievoorziening']['Totaal_gebruik_miljard_m3','Jaar']
-    group_6 = df_totaal[df_totaal['Watergebruikers'] == 'Water- en afvalbedrijven']['Totaal_gebruik_miljard_m3','Jaar']
-    group_7 = df_totaal[df_totaal['Watergebruikers'] == 'Bouw']['Totaal_gebruik_miljard_m3','Jaar']
-    group_8 = df_totaal[df_totaal['Watergebruikers'] == 'Handel']['Totaal_gebruik_miljard_m3','Jaar']
-    group_9 = df_totaal[df_totaal['Watergebruikers'] == 'Vervoer en opslag']['Totaal_gebruik_miljard_m3','Jaar']
-    group_10 = df_totaal[df_totaal['Watergebruikers'] == 'Horeca']['Totaal_gebruik_miljard_m3','Jaar']
+    group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_3 = df_totaal[df_totaal['Watergebruikers'] == 'Delfstofwinning'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_4 = df_totaal[df_totaal['Watergebruikers'] == 'Industrie'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_5 = df_totaal[df_totaal['Watergebruikers'] == 'Energievoorziening'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_6 = df_totaal[df_totaal['Watergebruikers'] == 'Water- en afvalbedrijven'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_7 = df_totaal[df_totaal['Watergebruikers'] == 'Bouw'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_8 = df_totaal[df_totaal['Watergebruikers'] == 'Handel'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_9 = df_totaal[df_totaal['Watergebruikers'] == 'Vervoer en opslag'][['Totaal_gebruik_miljard_m3','Jaar']]
+    group_10 = df_totaal[df_totaal['Watergebruikers'] == 'Horeca'][['Totaal_gebruik_miljard_m3','Jaar']]
     # Samenvoegen tot 1 lijst
     hist_data = [group_1, group_2, group_3,group_4,group_5,group_6,group_7,group_8,group_9,group_10]
     # Labels toekennen
