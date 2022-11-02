@@ -125,10 +125,10 @@ def add_bg_from_url():
 add_bg_from_url() 
 
 pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik', 'Toekomstig watergebruik'))
-st.sidebar.markdown('Gemaakt door: Giel Suweijn en Roy Pontman')
+st.sidebar.markdown('**Gemaakt door**: Giel Suweijn en Roy Pontman',unsafe_allow_html=True)
 st.sidebar.markdown('              Minor Data Science')
 if pages == 'Home':
-    st.title("**Bodem- en watergebruik in Nederland**",unsafe_allow_html=True)
+    st.title("**Bodem- en watergebruik in Nederland**")
     st.markdown("Met dit dashboard wordt geprobeerd het bodem- en watergerbuik in Nederland in kaart te krijgen. Door middel van datasets van CBS zijn jaargebruiken opgehaald en geanalyseerd. In de linker ribbon kunt u zich bewegen door het dashboard door middel van een dropdown. In deze dropdown is er een keuze te maken tussen het bodemgebruik, het watergebruik, het verloop van het watergebruik en het toekomstige watergebruik.")
     image = Image.open('Water.jpg')
     st.image(image, caption='De basis is water',width = 600)
