@@ -422,6 +422,7 @@ elif pages == 'Verloop van het Watergebruik':
         )
     )
     st.plotly_chart(fig_lijn_totaal)
+    st.markdown("In de bovenstaande visualisatie valt op dat er geen grote stijging of daling van het gebruik over de jaren heen is. Het verschil in gebruik ligt nog op hetzelfde niveau")
     # Lijn per soort water (leiding-, grond- of oppervlaktewater)    
     fig_lijn = make_subplots(rows = 3, cols = 1, shared_xaxes = True)
     fig_lijn.add_trace(go.Scatter(x=list(df_totaal.Jaar), y=list(df_totaal.Totaal_leidingwater_miljoen_m3), name = 'Totaal leidingwater(miljoen m3)'),row=1,col =1)
