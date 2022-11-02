@@ -115,7 +115,7 @@ def add_bg_from_url():
              background-image: url("https://wallpapic.nl/water-blauwe-laten-vallen-natuur/0qq26z");
              background-attachment: fixed;
              background-size: cover;
-             opacity: 0.55
+             #opacity: 0.55
          }}
          </style>
          """,
