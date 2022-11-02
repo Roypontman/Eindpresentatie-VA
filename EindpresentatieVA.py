@@ -112,7 +112,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwallpapic.nl%2Fwater&psig=AOvVaw2rZxffGcn_VUsFmQBdfylE&ust=1667494789263000&source=images&cd=vfe&ved=0CA4QjhxqFwoTCLDZ5bD8j_sCFQAAAAAdAAAAABAD");
+             background-image: url("https://wallpapic.nl/water-blauwe-laten-vallen-natuur/0qq26z");
              background-attachment: fixed;
              background-size: cover;
              opacity: 0.55
