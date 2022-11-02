@@ -473,13 +473,19 @@ elif pages == 'Verloop van het Watergebruik':
                                   ])]})
     st.plotly_chart(fig_box)
     with st.expander("Filter gekozen sector om alle gebruiken te zien"):
-        input = st.text_input('Geef een watergebruiker op','Bijvoorbeeld: Horeca', max_chars=25) 
+        st.markdown("In de onderstaande balk kunt u een van de watergebruikers invullen.")
+        st.markdown("De sectoren waarvan het gebruik bekend is zijn: Landbouw, Huishoudens, Delfstofwinning, Industrie, Energievoorziening, Water- en afvalbedrijven, Bouw, Handel, Vervoer en opslag, Horeca.")
+        input = st.text_input('Geef een watergebruiker op','Bijvoorbeeld: Horeca', max_chars=25)
+        message_annotation = {
+          'x': 0.5, 'y':1.05, 'xref': 'paper', 'yref': 'paper',
+          'text': f'Totaal watergebruik in de {input} (miljard m3)',
+          'font': {'size': 18, 'color': 'Black'},
+          'bgcolor': 'rgb(210, 210, 210)', 'showarrow': False}
         df_totaal1 = df_totaal.loc[df_totaal['Watergebruikers'] == input]
         st.dataframe(df_totaal1)
         fig_lijn_totaal_sector = go.Figure()
         fig_lijn_totaal_sector.add_trace( go.Scatter(x=list(df_totaal1.Jaar), y=list(df_totaal1.Totaal_gebruik)))
-        fig_lijn_totaal_sector.update_layout(title_text ="Totaal verloop watergebruik van de sector {input} in Nederland",
-                          yaxis_title = 'Totaal watergebruik in de {input} (miljard m3)')
+        fig_lijn_totaal_sector.update_layout(yaxis_title = 'Totaal watergebruik in de sector (miljard m3)', {'annotations':[message_annotation]})
         #Invoegen slider en knoppen
         fig_lijn_totaal_sector.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
         st.plotly_chart(fig_lijn_totaal_sector)
