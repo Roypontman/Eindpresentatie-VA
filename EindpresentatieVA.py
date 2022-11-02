@@ -442,38 +442,6 @@ elif pages == 'Verloop van het Watergebruik':
     st.plotly_chart(fig_lijn)
     with st.expander("Zie het tabel"):
         st.dataframe(df_totaal)
-    #Kansdichtheid
-    group_1 = df_totaal[df_totaal['Watergebruikers'] == 'Huishoudens'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_2 = df_totaal[df_totaal['Watergebruikers'] == 'Landbouw'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_3 = df_totaal[df_totaal['Watergebruikers'] == 'Delfstofwinning'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_4 = df_totaal[df_totaal['Watergebruikers'] == 'Industrie'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_5 = df_totaal[df_totaal['Watergebruikers'] == 'Energievoorziening'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_6 = df_totaal[df_totaal['Watergebruikers'] == 'Water- en afvalbedrijven'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_7 = df_totaal[df_totaal['Watergebruikers'] == 'Bouw'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_8 = df_totaal[df_totaal['Watergebruikers'] == 'Handel'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_9 = df_totaal[df_totaal['Watergebruikers'] == 'Vervoer en opslag'][['Totaal_gebruik_miljard_m3','Jaar']]
-    group_10 = df_totaal[df_totaal['Watergebruikers'] == 'Horeca'][['Totaal_gebruik_miljard_m3','Jaar']]
-    # Samenvoegen tot 1 lijst
-    hist_data = [group_1, group_2, group_3,group_4,group_5,group_6,group_7,group_8,group_9,group_10]
-    # Labels toekennen
-    group_labels = ['Huishoudens', 'Landbouw','Delfstofwinning',
-                    'Industrie', 'Energievoorziening','Water- en afvalbedrijven',
-                    'Bouw', 'Handel','Vervoer en opslag',
-                    'Horeca']
-    # Kleuren uitkiezen
-    water_color = ['rgb(0,0,255)','rgb(255,0,0)','rgb(10,230,10)',
-                   'rgb(176,23,31)','rgb(0,0,255)','rgb(0,206,209)',
-                   'rgb(105,139,105)','rgb(255,128,0)','rgb(139,34,82)',
-                   'rgb(75,0,130)']
-    # Plotten
-    fig_kans = px.bar(hist_data, x ='Jaar',y= 'Totaal_gebruik_miljard_m3', color= 'Watergebruikers')
-    fig_kans.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
-    fig_kans.update_layout(
-        title = 'De dichtheid van totaal gebruik per soort gebruiker',
-        xaxis_title = 'Totaal gebruik (miljard m3)',
-        legend_title = 'Soort watergebruiker')
-    st.plotly_chart(fig_kans)
-    
     # Boxplot
     fig_box = px.box(df_watergebruik_jaar, x = 'Watergebruikers', y ='Totaal_gebruik_miljard_m3', color = 'Watergebruikers')
     fig_box.update_layout(
