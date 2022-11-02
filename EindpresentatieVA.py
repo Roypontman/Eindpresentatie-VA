@@ -485,7 +485,7 @@ elif pages == 'Verloop van het Watergebruik':
         st.dataframe(df_totaal1)
         fig_lijn_totaal_sector = go.Figure()
         fig_lijn_totaal_sector.add_trace( go.Scatter(x=list(df_totaal1.Jaar), y=list(df_totaal1.Totaal_gebruik)))
-        fig_lijn_totaal_sector.update_layout(yaxis_title = 'Totaal watergebruik in de sector (miljard m3)', {'annotations':[message_annotation]})
+        fig_lijn_totaal_sector.update_layout( {'annotations':[message_annotation]}, yaxis_title = 'Totaal watergebruik in de sector (miljard m3)')
         #Invoegen slider en knoppen
         fig_lijn_totaal_sector.update_layout(xaxis=dict(rangeslider=dict(visible=True),type="date"))
         st.plotly_chart(fig_lijn_totaal_sector)
