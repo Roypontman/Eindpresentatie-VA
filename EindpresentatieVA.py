@@ -174,7 +174,7 @@ elif pages == 'Watergebruik':
     st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per soort water.')
     st.markdown('Daarnaast is er data bekend vanaf 2003 tot en met 2020.')
     #Knoppen maken zodat een dag van het jaar gekozen kan worden
-    number = st.number_input('Voer een jaar in', min_value=2003, max_value=2020, value=2003, step=1)
+    number = st.number_input('Voer een jaar in', min_value=df_watergebruik.Jaar.min(), max_value= df_watergebruik.Jaar.max(), value=2003, step=1)
     df_watergebruik = df_watergebruik.loc[df_watergebruik['Jaar'] == number]
     df_watergebruik.reset_index(inplace=True,drop=True)
     st.markdown('Vervolgens kunt u door middel van een dropdown bepalen welk soort watergebruik u wilt zien:')
