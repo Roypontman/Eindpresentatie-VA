@@ -30,44 +30,69 @@ from datetime import date
 
 
 # ## Ophalen Datasets
-df_leidingwater = pd.read_csv('Leidingwater.csv', sep =';')
-df_grondwater = pd.read_csv('Grondwater.csv', sep =';')
-df_oppervlaktewater = pd.read_csv('Oppervlaktewater.csv', sep =';')
+#df_leidingwater = pd.read_csv('Leidingwater.csv', sep =';')
+#df_grondwater = pd.read_csv('Grondwater.csv', sep =';')
+#df_oppervlaktewater = pd.read_csv('Oppervlaktewater.csv', sep =';')
 
 # ## Bewerken van de Data
 # ###Bewerken data watergebruik
 
 # Voor grondwater en oppervlaktewater zijn er NAN-values omdat het hier gaat om huishoudelijke watergebruikers
 # of gebruikers die alleen gebruik maken van leidingwater (zoals bijvoorbeeld ook Horeca). Hierdoor vullen we alle NAN-values met 0
-df_grondwater = df_grondwater.fillna(0)
-df_oppervlaktewater = df_oppervlaktewater.fillna(0)
+#df_grondwater = df_grondwater.fillna(0)
+#df_oppervlaktewater = df_oppervlaktewater.fillna(0)
 
-df_watergebruik = df_leidingwater.merge(df_grondwater, on = ['ID','Perioden','Watergebruikers']) \
-                    .merge(df_oppervlaktewater, on = ['ID','Perioden','Watergebruikers'])
+#df_watergebruik = df_leidingwater.merge(df_grondwater, on = ['ID','Perioden','Watergebruikers']) \
+#                   .merge(df_oppervlaktewater, on = ['ID','Perioden','Watergebruikers'])
+# ## Ophalen Dataset door middel van API
+url = "https://opendata.cbs.nl/ODataApi/odata/82883NED/TypedDataSet"
+response = requests.get(url)
+json = response.json()
+data = pd.DataFrame(json)
+df = data['value']
+lijst = []
+for x in df:
+    inhoud = [x['ID'],x['Watergebruikers'], x['Perioden'], x['TotaalLeidingwater_1'],
+              x['Drinkwater_2'],x['Industriewater_3'],x['TotaalGrondwater_4'],
+              x['GebruikVoorKoeling_5'],x['OverigGebruikGrondwater_6'],
+              x['TotaalOppervlaktewater_7'],x['ZoetOppervlaktewater_8'],x['ZoutOppervlaktewater_9']]
+    lijst.append(inhoud)
+    
+df_watergebruik = pd.DataFrame(lijst, columns = ['ID','Watergebruikers','Perioden',
+                                                 'TotaalLeidingwater_1','Drinkwater_2','Industriewater_3',
+                                                 'TotaalGrondwater_4','GebruikVoorKoeling_5','OverigGebruikGrondwater_6',
+                                                 'TotaalOppervlaktewater_7','ZoetOppervlaktewater_8','ZoutOppervlaktewater_9'])
+df_watergebruik.head()
+df_watergebruik.Watergebruikers.unique()
+Watergebruikers = ['301000 ','1050010','305700 ','307500 ','346600 ','348000 ','350000 ','354200 ','383100 ','389100 ']
+df_watergebruik = df_watergebruik.loc[df_watergebruik['Watergebruikers'].isin(Watergebruikers)]
+df_watergebruik.reset_index(inplace = True, drop = True)
+df_watergebruik.isna().sum()
+df_watergebruik = df_watergebruik.fillna(0)
 df_watergebruik['Jaar'] = df_watergebruik['Perioden'].str[:4]
 df_watergebruik.drop(['Perioden','ID'],axis=1, inplace=True)
 df_watergebruik['Watergebruikers'] = df_watergebruik['Watergebruikers'].astype(str)
 # Alle sectoren zijn gecodeerd in de download van de CSV, hierdoor moeten ze allemaal weer de goede naam krijgen.
 for i,column in df_watergebruik.iterrows():
-    if column['Watergebruikers'] == '301000':
+    if column['Watergebruikers'] == '301000 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Landbouw'
     if column['Watergebruikers'] == '1050010':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Huishoudens'
-    if column['Watergebruikers'] == '305700':
+    if column['Watergebruikers'] == '305700 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Delfstofwinning'
-    if column['Watergebruikers'] == '307500':
+    if column['Watergebruikers'] == '307500 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Industrie'
-    if column['Watergebruikers'] == '346600':
+    if column['Watergebruikers'] == '346600 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Energievoorziening'
-    if column['Watergebruikers'] == '348000':
+    if column['Watergebruikers'] == '348000 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Water- en afvalbedrijven'
-    if column['Watergebruikers'] == '350000':
+    if column['Watergebruikers'] == '350000 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Bouw'
-    if column['Watergebruikers'] == '354200':
+    if column['Watergebruikers'] == '354200 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Handel'
-    if column['Watergebruikers'] == '383100':
+    if column['Watergebruikers'] == '383100 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Vervoer en opslag'
-    if column['Watergebruikers'] == '389100':
+    if column['Watergebruikers'] == '389100 ':
         df_watergebruik.loc[i, 'Watergebruikers'] = 'Horeca'
 # Kolommen in de juiste volgorde zetten en hernoemen
 df_watergebruik = df_watergebruik[['Jaar','Watergebruikers',
