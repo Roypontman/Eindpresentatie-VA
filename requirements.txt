@@ -9,3 +9,4 @@ statsmodels==0.13.2
 streamlit==1.13.0
 fuzzywuzzy==0.18.0
 datetime==4.7
+seaborn==0.12.0
