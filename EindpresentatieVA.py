@@ -20,12 +20,13 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from shapely.geometry import Point
 import missingno as msno
-import statsmodels.api as sm
+from statsmodels.formula.api import ols
 #!pip install streamlit
 import streamlit as st
 from fuzzywuzzy import fuzz
 import datetime
 from datetime import date
+import seaborn as sns
 #import folium
 
 
@@ -114,6 +115,12 @@ df_watergebruik.rename(columns={'TotaalLeidingwater_1': 'Totaal_leidingwater_mil
 df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.date
 df_watergebruik['Jaar'] = pd.to_datetime(df_watergebruik['Jaar']).dt.year
 # Groeperen op gebruik per jaar
+df_watergebruik = df_watergebruik[['Jaar','Watergebruikers',
+                 'Totaal_leidingwater_miljoen_m3','Drinkwater_miljoen_m3',
+                 'industriewater_miljoen_m3','Totaal_grondwater_miljoen_m3',
+                 'Koelingwater_miljoen_m3','OverigeGebruikGrondwater_miljoen_m3',
+                 'Totaal_oppervlaktewater_miljoen_m3','ZoetOppervlaktewater_miljoen_m3',
+                 'ZoutOppervlaktewater_miljoen_m3']]
 df_watergebruik['Totaal_gebruik'] = df_watergebruik['Totaal_leidingwater_miljoen_m3'] + df_watergebruik['Totaal_grondwater_miljoen_m3'] + df_watergebruik['Totaal_oppervlaktewater_miljoen_m3']
 df_watergebruik_jaar = df_watergebruik.groupby(['Jaar'])['Totaal_leidingwater_miljoen_m3','Totaal_grondwater_miljoen_m3', 'Totaal_oppervlaktewater_miljoen_m3','Totaal_gebruik'].sum()
 df_watergebruik_jaar['Totaal_gebruik_miljard_m3'] = df_watergebruik_jaar['Totaal_gebruik']/1000
@@ -123,7 +130,8 @@ df_totaal['Totaal_gebruik'] = df_totaal['Totaal_leidingwater_miljoen_m3'] + df_t
 df_totaal['Totaal_gebruik_miljard_m3'] = df_totaal['Totaal_gebruik']/1000
 df_watergebruik_jaar = df_watergebruik_jaar.reset_index()
 df_totaal = df_totaal.reset_index()
-
+mdl_totaal_vs_all = ols('Totaal_leidingwater_miljoen_m3 ~ Drinkwater_miljoen_m3, industriewater_miljoen_m3', data = df_watergebruik).fit()
+print(mdl_totaal_vs_all.summary())
 
 
 
