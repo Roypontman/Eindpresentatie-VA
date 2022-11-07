@@ -131,8 +131,8 @@ df_totaal['Totaal_gebruik'] = df_totaal['Totaal_leidingwater_miljoen_m3'] + df_t
 df_totaal['Totaal_gebruik_miljard_m3'] = df_totaal['Totaal_gebruik']/1000
 df_watergebruik_jaar = df_watergebruik_jaar.reset_index()
 df_totaal = df_totaal.reset_index()
-mdl_totaal_vs_all = ols('Totaal_leidingwater_miljoen_m3 ~ Drinkwater_miljoen_m3, industriewater_miljoen_m3', data = df_watergebruik).fit()
-print(mdl_totaal_vs_all.summary())
+#mdl_totaal_vs_all = ols('Totaal_leidingwater_miljoen_m3 ~ Drinkwater_miljoen_m3, industriewater_miljoen_m3', data = df_watergebruik).fit()
+#print(mdl_totaal_vs_all.summary())
 
 
 
