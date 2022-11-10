@@ -280,7 +280,7 @@ for i in range(0,len(df_totaal_merge_map)):
     html= f"""
         <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
-    iframe = folium.IFrame(html=html, width=900, height=1000)
+    iframe = folium.IFrame(html=html, width=900, height=1200)
     popup = folium.Popup(iframe, max_width=200)
 
 
@@ -322,7 +322,7 @@ for i in range(0,len(df_totaal_merge_map)):
     html= f"""
         <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
-    iframe = folium.IFrame(html=html, width=900, height=1000)
+    iframe = folium.IFrame(html=html, width=900, height=1200)
     popup = folium.Popup(iframe, max_width=200)
 
 
@@ -364,7 +364,7 @@ for i in range(0,len(df_totaal_merge_map)):
     html= f"""
         <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
-    iframe = folium.IFrame(html=html, width=900, height=1000)
+    iframe = folium.IFrame(html=html, width=900, height=1200)
     popup = folium.Popup(iframe, max_width=200)
 
 
@@ -406,7 +406,7 @@ for i in range(0,len(df_totaal_merge_map)):
     html= f"""
         <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
-    iframe = folium.IFrame(html=html, width=900, height=1000)
+    iframe = folium.IFrame(html=html, width=900, height=1200)
     popup = folium.Popup(iframe, max_width=200)
 
 
@@ -448,7 +448,7 @@ for i in range(0,len(df_totaal_merge_map)):
     html= f"""
         <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
-    iframe = folium.IFrame(html=html, width=900, height=1000)
+    iframe = folium.IFrame(html=html, width=900, height=1200)
     popup = folium.Popup(iframe, max_width=200)
 
 
@@ -490,7 +490,7 @@ for i in range(0,len(df_totaal_merge_map)):
     html= f"""
         <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
-    iframe = folium.IFrame(html=html, width=900, height=1000)
+    iframe = folium.IFrame(html=html, width=900, height=1200)
     popup = folium.Popup(iframe, max_width=200)
 
 
@@ -731,6 +731,7 @@ elif pages == 'Bodemgebruik':
     st.subheader('Bodemgebruik in Nederland')
     st.markdown('Onder het kopje "Bodemgebruik in cijfers" was te zien het bodemgebruik per soort bodem per provincie in Nederland.')
     st.markdown('Op deze pagina wordt het gebruik zichtbaar gemaakt via een kaart')
+    st.markdown('Onderstaand is een selectbox te zien waarin een type bodem geselecteerd kan worden. De map die eruit komt is de meest recente oppervlakte.')
     keuze = st.selectbox( 'Bodemgebruik', ('Water',"Natuur",'Infra',
                                                     'Bebouwd','Onverhard','Landbouw'))
     if keuze == 'Water':
