@@ -260,7 +260,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url(https://www.the-clear-way.nl/images/bg-41.jpg);
+             background-image: url(https://www.the-clear-way.nl/images/bg-21.jpg);
              background-attachment: fixed;
              background-size: cover;
              #background-opacity: 0.3
@@ -278,7 +278,7 @@ st.sidebar.markdown('**Gemaakt door**: Giel Suweijn en Roy Pontman',unsafe_allow
 st.sidebar.markdown('              Minor Data Science')
 if pages == 'Home':
     st.title("**Bodem- en watergebruik in Nederland**")
-    st.markdown("Met dit dashboard wordt geprobeerd het bodem- en watergerbuik in Nederland in kaart te krijgen. Door middel van datasets van CBS zijn jaargebruiken opgehaald en geanalyseerd. In de linker ribbon kunt u zich bewegen door het dashboard door middel van een dropdown. In deze dropdown is er een keuze te maken tussen het bodemgebruik, het watergebruik, het verloop van het watergebruik en het toekomstige watergebruik.")
+    st.markdown("Met dit dashboard wordt geprobeerd het bodem- en watergebruik in Nederland in kaart te krijgen. Door middel van datasets van CBS zijn jaargebruiken opgehaald en geanalyseerd. In de linker ribbon kunt u zich bewegen door het dashboard door middel van een dropdown. In deze dropdown is er een keuze te maken tussen het bodemgebruik, het watergebruik, het verloop van het watergebruik en het toekomstige watergebruik.")
     image = Image.open('Water.jpg')
     st.image(image, caption='De basis is water',width = 600)
     image = Image.open('Bodem.jpg')
@@ -306,6 +306,7 @@ elif pages == 'Bodemgebruik in cijfers':
     
     if keuze == 'Water':
         st.subheader('Wateroppervlak in Nederland')
+        df_totaal_merge = df_totaal_merge.groupby(['Jaar','Locatie'])['Water'].mean().reset_index(name = 'Water')
         with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Water']])
       #Figuur maken van de keuze
@@ -332,6 +333,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)
     if keuze == 'Natuur':
         st.subheader('Natuur oppervlak in Nederland')
+        df_totaal_merge = df_totaal_merge.groupby(['Jaar','Locatie'])['Natuur'].mean().reset_index(name = 'Natuur')
         with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Natuur']])
       #Figuur maken van de keuze
@@ -358,6 +360,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)   
     if keuze == 'Infra':
         st.subheader('Infrastructuur oppervlak in Nederland')
+        df_totaal_merge = df_totaal_merge.groupby(['Jaar','Locatie'])['Infra'].mean().reset_index(name = 'Infra')
         with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Infra']])
       #Figuur maken van de keuze
@@ -384,6 +387,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)   
     if keuze == 'Bebouwd':
         st.subheader('Bebouwd oppervlak in Nederland')
+        df_totaal_merge = df_totaal_merge.groupby(['Jaar','Locatie'])['Bebouwd'].mean().reset_index(name = 'Bebouwd')
         with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Bebouwd']])
       #Figuur maken van de keuze
@@ -410,6 +414,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)
     if keuze == 'Onverhard':
         st.subheader('Onverhard oppervlak in Nederland')
+        df_totaal_merge = df_totaal_merge.groupby(['Jaar','Locatie'])['Onverhard'].mean().reset_index(name = 'Onverhard')
         with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Onverhard']])
       #Figuur maken van de keuze
@@ -437,6 +442,7 @@ elif pages == 'Bodemgebruik in cijfers':
             
     if keuze == 'Landbouw':
         st.subheader('Landbouw oppervlak in Nederland')
+        df_totaal_merge = df_totaal_merge.groupby(['Jaar','Locatie'])['Landbouw'].mean().reset_index(name = 'Landbouw')
         with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Landbouw']])
       #Figuur maken van de keuze
