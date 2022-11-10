@@ -260,10 +260,10 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url(https://www.the-clear-way.nl/images/bg-6.jpg);
+             background-image: url(https://www.the-clear-way.nl/images/bg-41.jpg);
              background-attachment: fixed;
              background-size: cover;
-             background-opacity: 0.3
+             #background-opacity: 0.3
          }}
          </style>
          """,
@@ -273,7 +273,7 @@ def add_bg_from_url():
 add_bg_from_url() 
 
 
-pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik', 'Toekomstig watergebruik'))
+pages = st.sidebar.selectbox('Pagina' ,('Home','Bodemgebruik in cijfers','Bodemgebruik','Watergebruik', 'Verloop van het Watergebruik', 'Toekomstig watergebruik'))
 st.sidebar.markdown('**Gemaakt door**: Giel Suweijn en Roy Pontman',unsafe_allow_html=True)
 st.sidebar.markdown('              Minor Data Science')
 if pages == 'Home':
@@ -289,11 +289,184 @@ if pages == 'Home':
     
 
 
-elif pages == 'Bodemgebruik':
-    st.subheader('Kaarten Bedrijventerreinen')
-    st.markdown("In de kaart zijn de energiebehoeftes van Schiphol tradepark en WFO per gebouw weergegeven. Hiermee gaan we een geschatte energievraag analyseren van op basis van voertuigregistraties. Op basis van publieke data en deelse CBS data. Wordt een inschatting gemaakt hoe de energiebehoefte/voorraad op bedrijventerreinen.")
-    folium_static(mwfo)#Kaart1
-    folium_static(mstp)#Kaart2
+elif pages == 'Bodemgebruik in cijfers':
+    st.subheader('Bodemgebruik per jaar')
+    st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het bodemgebruik kunt zien per provincie.')
+    st.markdown('De jaren beschikbaar voor het bodemgebruik zijn: 2003, 2006, 2008, 2010, 2012 en 2015In onderstaand veld kunt u een jaar invullen waarin u het bodemgebruik kunt zien per provincie.')
+    #Knoppen maken zodat een dag van het jaar gekozen kan worden
+    number = st.number_input('Voer een jaar in', min_value=df_watergebruik.Jaar.min(), max_value= df_watergebruik.Jaar.max(), value=2003, step=1)
+    df_totaal_merge = df_totaal_merge.loc[df_totaal_merge['Jaar'] == number]
+    st.markdown('Vervolgens kunt u door middel van een dropdown bepalen welk soort bodemgebruik u wilt zien:')
+    #Dropdown maken zodat het soort watergebruik gekozen kan worden
+    keuze = st.selectbox( 'Bodemgebruik', ('Water',"Natuur",'Infra',
+                                                    'Bebouwd','Onverhard','Landbouw'))
+                                                   
+    st.markdown('Na u keuze komt een tabel naar voren van het bodemgebruik per provincie.')
+    st.markdown('Daarnaast wordt een grafiek zichtbaar met het gebruik per gekozen jaar per sector')
+    
+    if keuze == 'Water':
+        st.subheader('Wateroppervlak in Nederland')
+      
+          with st.expander("Zie het tabel"):
+            st.dataframe(df_totaal_merge[['Locatie','Water']])
+      #Figuur maken van de keuze
+        figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Water', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
+        figbodem.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 700,
+                  title='Wateroppervlak per provincie', yaxis_title = "Wateroppervlak in km^2")
+      
+      # Verdeling maken van aandeel per sector
+        figbodem1 = px.pie(df_totaal_merge, values='Water', names='Locatie', opacity = 0.7, title='Aandeel wateroppervlak per provincie')
+        figbodem1.update_traces(textinfo='percent+label')
+          with st.expander("Zie de Visualisaties"):
+            st.plotly_chart(figbodem)
+            st.plotly_chart(figbodem1)
+            st.write("""
+              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              """)
+    if keuze == 'Natuur':
+        st.subheader('Natuur oppervlak in Nederland')
+      
+          with st.expander("Zie het tabel"):
+            st.dataframe(df_totaal_merge[['Locatie','Natuur']])
+      #Figuur maken van de keuze
+        figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Natuur', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
+        figbodem.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 700,
+                  title='Natuur oppervlak per provincie', yaxis_title = "Natuur oppervlak in km^2")
+      
+      # Verdeling maken van aandeel per sector
+        figbodem1 = px.pie(df_totaal_merge, values='Natuur', names='Locatie', opacity = 0.7, title='Aandeel natuur oppervlak per provincie')
+        figbodem1.update_traces(textinfo='percent+label')
+          with st.expander("Zie de Visualisaties"):
+            st.plotly_chart(figbodem)
+            st.plotly_chart(figbodem1)
+            st.write("""
+              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              """)   
+    if keuze == 'Infra':
+        st.subheader('Infrastructuur oppervlak in Nederland')
+      
+          with st.expander("Zie het tabel"):
+            st.dataframe(df_totaal_merge[['Locatie','Infra']])
+      #Figuur maken van de keuze
+        figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Infra', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
+        figbodem.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 700,
+                  title='Infrastructuur oppervlak per provincie', yaxis_title = "Infrastructuur oppervlak in km^2")
+      
+      # Verdeling maken van aandeel per sector
+        figbodem1 = px.pie(df_totaal_merge, values='Infra', names='Locatie', opacity = 0.7, title='Aandeel infrastructuur oppervlak per provincie')
+        figbodem1.update_traces(textinfo='percent+label')
+          with st.expander("Zie de Visualisaties"):
+            st.plotly_chart(figbodem)
+            st.plotly_chart(figbodem1)
+            st.write("""
+              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              """)   
+    if keuze == 'Bebouwd':
+        st.subheader('Bebouwd oppervlak in Nederland')
+      
+          with st.expander("Zie het tabel"):
+            st.dataframe(df_totaal_merge[['Locatie','Bebouwd']])
+      #Figuur maken van de keuze
+        figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Bebouwd', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
+        figbodem.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 700,
+                  title='Bebouwd oppervlak per provincie', yaxis_title = "Bebouwd oppervlak in km^2")
+      
+      # Verdeling maken van aandeel per sector
+        figbodem1 = px.pie(df_totaal_merge, values='Bebouwd', names='Locatie', opacity = 0.7, title='Aandeel Bebouwd oppervlak per provincie')
+        figbodem1.update_traces(textinfo='percent+label')
+          with st.expander("Zie de Visualisaties"):
+            st.plotly_chart(figbodem)
+            st.plotly_chart(figbodem1)
+            st.write("""
+              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              """)
+    if keuze == 'Onverhard':
+        st.subheader('Onverhard oppervlak in Nederland')
+      
+          with st.expander("Zie het tabel"):
+            st.dataframe(df_totaal_merge[['Locatie','Onverhard']])
+      #Figuur maken van de keuze
+        figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Onverhard', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
+        figbodem.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 700,
+                  title='Onverhard oppervlak per provincie', yaxis_title = "Onverhard oppervlak in km^2")
+      
+      # Verdeling maken van aandeel per sector
+        figbodem1 = px.pie(df_totaal_merge, values='Onverhard', names='Locatie', opacity = 0.7, title='Aandeel Onverhard oppervlak per provincie')
+        figbodem1.update_traces(textinfo='percent+label')
+          with st.expander("Zie de Visualisaties"):
+            st.plotly_chart(figbodem)
+            st.plotly_chart(figbodem1)
+            st.write("""
+              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              """)
+            
+    if keuze == 'Landbouw':
+        st.subheader('Landbouw oppervlak in Nederland')
+      
+          with st.expander("Zie het tabel"):
+            st.dataframe(df_totaal_merge[['Locatie','Landbouw']])
+      #Figuur maken van de keuze
+        figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Landbouw', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
+        figbodem.update_layout({'updatemenus':[dict(
+                 buttons=[
+                     dict(label="Linear",  
+                          method="relayout", 
+                          args=[{"yaxis.type": "linear"}]),
+                     dict(label="Log", 
+                          method="relayout", 
+                          args=[{"yaxis.type": "log"}])]
+                  )]}, height = 700, width = 700,
+                  title='Landbouw oppervlak per provincie', yaxis_title = "Landbouw oppervlak in km^2")
+      
+      # Verdeling maken van aandeel per sector
+        figbodem1 = px.pie(df_totaal_merge, values='Landbouw', names='Locatie', opacity = 0.7, title='Aandeel Landbouw oppervlak per provincie')
+        figbodem1.update_traces(textinfo='percent+label')
+          with st.expander("Zie de Visualisaties"):
+            st.plotly_chart(figbodem)
+            st.plotly_chart(figbodem1)
+            st.write("""
+              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              """)
 
 
 elif pages == 'Watergebruik':
