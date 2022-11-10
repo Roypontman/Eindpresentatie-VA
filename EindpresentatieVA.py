@@ -260,7 +260,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url(https://www.the-clear-way.nl/images/bg-21.jpg);
+             background-image: url(https://img.freepik.com/premium-photo/eenvoudige-witte-achtergrond-met-vloeiende-lijnen-in-lichte-kleuren_476363-5558.jpg?w=1380);
              background-attachment: fixed;
              background-size: cover;
              #background-opacity: 0.3
@@ -471,6 +471,25 @@ elif pages == 'Bodemgebruik':
     st.subheader('Bodemgebruik in Nederland')
     st.markdown('Onder het kopje "Bodemgebruik in cijfers" was te zien het bodemgebruik per soort bodem per provincie in Nederland.')
     st.markdown('Op deze pagina wordt het gebruik zichtbaar gemaakt via een kaart')
+    keuze = st.selectbox( 'Bodemgebruik', ('Water',"Natuur",'Infra',
+                                                    'Bebouwd','Onverhard','Landbouw'))
+    if keuze == 'Water':
+      st.subheader('Wateroppervlak in Nederland')
+      
+    if keuze == 'Natuur':
+      st.subheader('Natuur oppervlak in Nederland')
+      
+    if keuze == 'Infra':
+      st.subheader('Infrastructuur oppervlak in Nederland')
+      
+    if keuze == 'Bebouwd':
+      st.subheader('Bebouwd oppervlak in Nederland')
+      
+    if keuze == 'Onverhard':
+      st.subheader('Onverhard oppervlak in Nederland')
+      
+    if keuze == 'Landbouw':
+      st.subheader('Landbouw oppervlak in Nederland')
     
 elif pages == 'Watergebruik':
     st.subheader('Watergebruik per jaar')
