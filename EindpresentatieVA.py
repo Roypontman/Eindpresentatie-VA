@@ -284,8 +284,8 @@ if pages == 'Home':
     image = Image.open('Bodem.jpg')
     st.image(image, caption='Complexe indeling in Nederland',width =600)
     st.markdown("**Bronnen**:",unsafe_allow_html=True)
-    st.markdown("__Watergebruik__: url(https://opendata.cbs.nl/statline/portal.html?_la=nl&_catalog=CBS&tableId=82883NED&_theme=233)",unsafe_allow_html=True)
-    st.markdown("__Bodemgebruik__: url(https://opendata.cbs.nl/statline/portal.html?_catalog=CBS&_la=nl&tableId=37105&_theme=303)",unsafe_allow_html=True)
+    st.markdown("__Watergebruik__: https://opendata.cbs.nl/statline/portal.html?_la=nl&_catalog=CBS&tableId=82883NED&_theme=233",unsafe_allow_html=True)
+    st.markdown("__Bodemgebruik__: https://opendata.cbs.nl/statline/portal.html?_catalog=CBS&_la=nl&tableId=37105&_theme=303",unsafe_allow_html=True)
     
 
 
