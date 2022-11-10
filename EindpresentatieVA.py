@@ -254,7 +254,7 @@ df_totaal_merge_map = df_totaal_merge_map.groupby(['Jaar','Locatie'])['Water','I
 df_totaal_merge_map.reset_index(inplace = True)
 Provincie_id = [1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33]
 df_totaal_merge_map['Provincie_id'] = Provincie_id
-dfmap = df_totaal_merge_map.drop(columns = 'centroid')
+
 
 
 # ## Alle maps gemaakt per soort bodem
@@ -267,7 +267,7 @@ map_Natuur = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
 c_Natuur = folium.Choropleth(
     geo_data=geo_data1,
     name="choropleth",
-    data=dfnieuw,
+    data=df_totaal_merge_map,
     columns=["Locatie", "Natuur"],
     key_on="feature.properties.Locatie",
     fill_color="YlGnBu",
@@ -276,9 +276,9 @@ c_Natuur = folium.Choropleth(
     legend_name="..",
 )
 
-for i in range(0,len(dfnieuw)):
+for i in range(0,len(df_totaal_merge_map)):
     html= f"""
-        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
     iframe = folium.IFrame(html=html, width=900, height=1000)
     popup = folium.Popup(iframe, max_width=200)
@@ -309,7 +309,7 @@ map_Water = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
 c_Water = folium.Choropleth(
     geo_data=geo_data1,
     name="choropleth",
-    data=dfnieuw,
+    data=df_totaal_merge_map,
     columns=["Locatie", "Water"],
     key_on="feature.properties.Locatie",
     fill_color="YlGnBu",
@@ -318,9 +318,9 @@ c_Water = folium.Choropleth(
     legend_name="..",
 )
 
-for i in range(0,len(dfnieuw)):
+for i in range(0,len(df_totaal_merge_map)):
     html= f"""
-        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
     iframe = folium.IFrame(html=html, width=900, height=1000)
     popup = folium.Popup(iframe, max_width=200)
@@ -351,7 +351,7 @@ map_Infra = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
 c_Infra = folium.Choropleth(
     geo_data=geo_data1,
     name="choropleth",
-    data=dfnieuw,
+    data=df_totaal_merge_map,
     columns=["Locatie", "Infra"],
     key_on="feature.properties.Locatie",
     fill_color="YlGnBu",
@@ -360,9 +360,9 @@ c_Infra = folium.Choropleth(
     legend_name="..",
 )
 
-for i in range(0,len(dfnieuw)):
+for i in range(0,len(df_totaal_merge_map)):
     html= f"""
-        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
     iframe = folium.IFrame(html=html, width=900, height=1000)
     popup = folium.Popup(iframe, max_width=200)
@@ -393,7 +393,7 @@ map_Bebouwd = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
 c_Bebouwd = folium.Choropleth(
     geo_data=geo_data1,
     name="choropleth",
-    data=dfnieuw,
+    data=df_totaal_merge_map,
     columns=["Locatie", "Bebouwd"],
     key_on="feature.properties.Locatie",
     fill_color="YlGnBu",
@@ -402,9 +402,9 @@ c_Bebouwd = folium.Choropleth(
     legend_name="..",
 )
 
-for i in range(0,len(dfnieuw)):
+for i in range(0,len(df_totaal_merge_map)):
     html= f"""
-        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
     iframe = folium.IFrame(html=html, width=900, height=1000)
     popup = folium.Popup(iframe, max_width=200)
@@ -435,7 +435,7 @@ map_Onverhard = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=Fals
 c_Onverhard = folium.Choropleth(
     geo_data=geo_data1,
     name="choropleth",
-    data=dfnieuw,
+    data=df_totaal_merge_map,
     columns=["Locatie", "Onverhard"],
     key_on="feature.properties.Locatie",
     fill_color="YlGnBu",
@@ -444,9 +444,9 @@ c_Onverhard = folium.Choropleth(
     legend_name="..",
 )
 
-for i in range(0,len(dfnieuw)):
+for i in range(0,len(df_totaal_merge_map)):
     html= f"""
-        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
     iframe = folium.IFrame(html=html, width=900, height=1000)
     popup = folium.Popup(iframe, max_width=200)
@@ -477,7 +477,7 @@ map_Landbouw = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False
 c_Landbouw = folium.Choropleth(
     geo_data=geo_data1,
     name="choropleth",
-    data=dfnieuw,
+    data=df_totaal_merge_map,
     columns=["Locatie", "Landbouw"],
     key_on="feature.properties.Locatie",
     fill_color="YlGnBu",
@@ -486,9 +486,9 @@ c_Landbouw = folium.Choropleth(
     legend_name="..",
 )
 
-for i in range(0,len(dfnieuw)):
+for i in range(0,len(df_totaal_merge_map)):
     html= f"""
-        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        <h2> {df_totaal_merge_map.iloc[i]['Locatie']}</h2>
         """
     iframe = folium.IFrame(html=html, width=900, height=1000)
     popup = folium.Popup(iframe, max_width=200)
