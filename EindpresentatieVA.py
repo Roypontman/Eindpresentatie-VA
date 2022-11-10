@@ -28,7 +28,6 @@ import datetime
 from datetime import date
 import seaborn as sns
 import matplotlib.pyplot as plt
-!pip install streamlit_folium
 import streamlit_folium as st_folium
 from streamlit_folium import folium_static
 import folium
