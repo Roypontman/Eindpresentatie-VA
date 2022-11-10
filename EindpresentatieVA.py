@@ -28,7 +28,9 @@ import datetime
 from datetime import date
 import seaborn as sns
 import matplotlib.pyplot as plt
-#import folium
+import streamlit_folium as st_folium
+from streamlit_folium import folium_static
+import folium
 # ## Ophalen Dataset Bodemgebruik door middel van API
 r1 = requests.get('https://opendata.cbs.nl/ODataApi/odata/37105/TypedDataSet')
 x1 = r1.json()
