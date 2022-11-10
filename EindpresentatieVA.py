@@ -509,7 +509,17 @@ folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noo
 
 
 c_Landbouw.add_to(map_Landbouw)
+# ## Toekomstig model
+df_model = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum().reset_index()
+Nieuwe_rij1 = {'Jaar':'2025', 'Totaal_gebruik': 16379.4} 
+Nieuwe_rij2 = {'Jaar':'2035', 'Totaal_gebruik': 18545.9}
+Nieuwe_rij3 = {'Jaar':'2050', 'Totaal_gebruik': 22344.7}
 
+df_watergebruik_jaar_toekomst1 = df_model.append(Nieuwe_rij1, ignore_index=True)
+df_watergebruik_jaar_toekomst2 = df_watergebruik_jaar_toekomst1.append(Nieuwe_rij2, ignore_index=True)
+df_model = df_watergebruik_jaar_toekomst2.append(Nieuwe_rij3, ignore_index=True)
+df_model['Jaar'] = pd.to_datetime(df_model['Jaar'], format = '%Y')
+fig_model = px.scatter(df_model, x = 'Jaar', y = 'Totaal_gebruik',trendline='rolling', trendline_options=dict(window=3))
 # ## Streamlit Code
 
 # ### Achtergrond invoegen
@@ -1124,4 +1134,8 @@ elif pages == 'Toekomstig watergebruik':
   st.subheader("Het toekomstige watergebruik in Nederland")
   st.markdown("Op deze pagina wordt een voorspelling gedaan van het watergebruik in Nederland in de toekomst.")
   st.markdown("Om het verloop goed te kunnen weergeven zijn er een aantal lijndiagrammen opgesteld")
+  st.markdown('Waterbedrijf Vitens heeft de verwachting dat het totale watergebruik per jaar zal toenemen met 1.25%')
+  with st.expander("Zie tabel"):
+    st.dataframe(df_model)
+  st.plotly_chart(fig_model)
   
