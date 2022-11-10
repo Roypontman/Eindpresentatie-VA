@@ -511,6 +511,7 @@ folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noo
 c_Landbouw.add_to(map_Landbouw)
 # ## Toekomstig model
 df_model = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum().reset_index()
+df_model = df_model.rename(columns ={'Totaal_gebruik':'Totaal_gebruik_m3'})
 Nieuwe_rij1 = {'Jaar':'2025', 'Totaal_gebruik': 16379.4} 
 Nieuwe_rij2 = {'Jaar':'2035', 'Totaal_gebruik': 18545.9}
 Nieuwe_rij3 = {'Jaar':'2050', 'Totaal_gebruik': 22344.7}
