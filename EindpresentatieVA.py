@@ -254,8 +254,6 @@ df_totaal_merge_map = df_totaal_merge_map.groupby(['Jaar','Locatie'])['Water','I
 df_totaal_merge_map.reset_index(inplace = True)
 Provincie_id = [1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33]
 df_totaal_merge_map['Provincie_id'] = Provincie_id
-df_totaal_merge['centroid'] = df_totaal_merge.centroid
-df_totaal_merge['centroid'] = df_totaal_merge['centroid'].to_crs(epsg=4326)
 dfmap = df_totaal_merge_map.drop(columns = 'centroid')
 
 
