@@ -512,16 +512,16 @@ c_Landbouw.add_to(map_Landbouw)
 # ## Toekomstig model
 df_model = df_watergebruik.groupby(['Jaar'])['Totaal_gebruik'].sum().reset_index()
 df_model = df_model.rename(columns ={'Totaal_gebruik':'Totaal_gebruik_m3'})
-Nieuwe_rij1 = {'Jaar':'2025', 'Totaal_gebruik': 16379.4} 
-Nieuwe_rij2 = {'Jaar':'2035', 'Totaal_gebruik': 18545.9}
-Nieuwe_rij3 = {'Jaar':'2050', 'Totaal_gebruik': 22344.7}
+Nieuwe_rij1 = {'Jaar':'2025', 'Totaal_gebruik_m3': 16379.4} 
+Nieuwe_rij2 = {'Jaar':'2035', 'Totaal_gebruik_m3': 18545.9}
+Nieuwe_rij3 = {'Jaar':'2050', 'Totaal_gebruik_m3': 22344.7}
 
 df_watergebruik_jaar_toekomst1 = df_model.append(Nieuwe_rij1, ignore_index=True)
 df_watergebruik_jaar_toekomst2 = df_watergebruik_jaar_toekomst1.append(Nieuwe_rij2, ignore_index=True)
 df_model = df_watergebruik_jaar_toekomst2.append(Nieuwe_rij3, ignore_index=True)
 df_model['Jaar'] = pd.to_datetime(df_model['Jaar'], format = '%Y')
 df_model['Jaar'] = df_model['Jaar'].dt.year
-fig_model = px.scatter(df_model, x = 'Jaar', y = 'Totaal_gebruik',trendline='rolling', trendline_options=dict(window=3))
+fig_model = px.scatter(df_model, x = 'Jaar', y = 'Totaal_gebruik_m3',trendline='rolling', trendline_options=dict(window=3))
 # ## Streamlit Code
 
 # ### Achtergrond invoegen
