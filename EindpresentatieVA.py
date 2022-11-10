@@ -247,12 +247,265 @@ df_totaal_merge = df_totaal_merge[['Jaar','Locatie','Watergebruikers',
                                    'Onverhard','Landbouw','Totaal_gebruik',
                                   'Totaal_oppervlak_watergebruikers','Totaal_gebruik_provincie',
                                   'percentage','Watergebruik_bodem_m3']]
+# ## Code voor het maken van de geospatial map
+df_totaal_merge_map = df_totaal_merge[df_totaal_merge.Jaar == 2015]
+Provincie_id = [1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33]
+df_totaal_merge_map['Provincie_id'] = Provincie_id
+df_totaal_merge['centroid'] = df_totaal_merge.centroid
+df_totaal_merge['centroid'] = df_totaal_merge['centroid'].to_crs(epsg=4326)
+dfmap = df_totaal_merge_map.drop(columns = 'centroid')
+# ## Alle maps gemaakt per soort bodem
+map_Natuur = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
+                   scrollWheelZoom=False,
+                    max_zoom=7,
+                    min_zoom=7,
+                   dragging=False)
+
+c_Natuur = folium.Choropleth(
+    geo_data=geo_data1,
+    name="choropleth",
+    data=dfnieuw,
+    columns=["Locatie", "Natuur"],
+    key_on="feature.properties.Locatie",
+    fill_color="YlGnBu",
+    fill_opacity=0.85,
+    line_opacity=0.2,
+    legend_name="..",
+)
+
+for i in range(0,len(dfnieuw)):
+    html= f"""
+        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        """
+    iframe = folium.IFrame(html=html, width=900, height=1000)
+    popup = folium.Popup(iframe, max_width=200)
 
 
+folium.Marker(location=[52.0907374, 5.1214201],popup='<b>2843km2</b>',tooltip='Utrecht').add_to(map_Natuur)
+folium.Marker(location=[51.9851034, 5.8987296],popup='<b>10125km2</b>',tooltip='Gelderland').add_to(map_Natuur)
+folium.Marker(location=[53.2190652, 6.5680077],popup='<b>4739km2</b>',tooltip='Groningen').add_to(map_Natuur)
+folium.Marker(location=[52.3638863, 6.4627523],popup='<b>6750km2</b>',tooltip='Overijssel').add_to(map_Natuur)
+folium.Marker(location=[53.0949487, 5.8388679],popup='<b>3828km2</b>',tooltip='Friesland').add_to(map_Natuur)
+folium.Marker(location=[52.6323813, 4.7533754],popup='<b>6096km2</b>',tooltip='Noord-Holland').add_to(map_Natuur)
+folium.Marker(location=[52.078663, 4.288788],popup='<b>6083km2</b>',tooltip='Zuid-Holland').add_to(map_Natuur)
+folium.Marker(location=[51.49694, 3.616689],popup='<b>3715km2</b>',tooltip='Zeeland').add_to(map_Natuur)
+folium.Marker(location=[51.1913202, 5.9877715],popup='<b>4369km2</b>',tooltip='Limburg').add_to(map_Natuur)
+folium.Marker(location=[52.8509512, 6.6057445],popup='<b>5321km2</b>',tooltip='Drenthe').add_to(map_Natuur)
+folium.Marker(location=[52.518537, 5.471422],popup='<b>3828km2</b>',tooltip='Flevoland').add_to(map_Natuur)
+folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noord-Brabant').add_to(map_Natuur)
 
 
+c_Natuur.add_to(map_Natuur)
 
-# ###Bewerken data bodemgebruik
+map_Water = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
+                   scrollWheelZoom=False,
+                    max_zoom=7,
+                    min_zoom=7,
+                   dragging=False)
+
+c_Water = folium.Choropleth(
+    geo_data=geo_data1,
+    name="choropleth",
+    data=dfnieuw,
+    columns=["Locatie", "Water"],
+    key_on="feature.properties.Locatie",
+    fill_color="YlGnBu",
+    fill_opacity=0.85,
+    line_opacity=0.2,
+    legend_name="..",
+)
+
+for i in range(0,len(dfnieuw)):
+    html= f"""
+        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        """
+    iframe = folium.IFrame(html=html, width=900, height=1000)
+    popup = folium.Popup(iframe, max_width=200)
+
+
+folium.Marker(location=[52.0907374, 5.1214201],popup='<b>2843km2</b>',tooltip='Utrecht').add_to(map_Water)
+folium.Marker(location=[51.9851034, 5.8987296],popup='<b>10125km2</b>',tooltip='Gelderland').add_to(map_Water)
+folium.Marker(location=[53.2190652, 6.5680077],popup='<b>4739km2</b>',tooltip='Groningen').add_to(map_Water)
+folium.Marker(location=[52.3638863, 6.4627523],popup='<b>6750km2</b>',tooltip='Overijssel').add_to(map_Water)
+folium.Marker(location=[53.0949487, 5.8388679],popup='<b>3828km2</b>',tooltip='Friesland').add_to(map_Water)
+folium.Marker(location=[52.6323813, 4.7533754],popup='<b>6096km2</b>',tooltip='Noord-Holland').add_to(map_Water)
+folium.Marker(location=[52.078663, 4.288788],popup='<b>6083km2</b>',tooltip='Zuid-Holland').add_to(map_Water)
+folium.Marker(location=[51.49694, 3.616689],popup='<b>3715km2</b>',tooltip='Zeeland').add_to(map_Water)
+folium.Marker(location=[51.1913202, 5.9877715],popup='<b>4369km2</b>',tooltip='Limburg').add_to(map_Water)
+folium.Marker(location=[52.8509512, 6.6057445],popup='<b>5321km2</b>',tooltip='Drenthe').add_to(map_Water)
+folium.Marker(location=[52.518537, 5.471422],popup='<b>3828km2</b>',tooltip='Flevoland').add_to(map_Water)
+folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noord-Brabant').add_to(map_Water)
+
+
+c_Water.add_to(map_Water)
+
+map_Infra = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
+                   scrollWheelZoom=False,
+                    max_zoom=7,
+                    min_zoom=7,
+                   dragging=False)
+
+c_Infra = folium.Choropleth(
+    geo_data=geo_data1,
+    name="choropleth",
+    data=dfnieuw,
+    columns=["Locatie", "Infra"],
+    key_on="feature.properties.Locatie",
+    fill_color="YlGnBu",
+    fill_opacity=0.85,
+    line_opacity=0.2,
+    legend_name="..",
+)
+
+for i in range(0,len(dfnieuw)):
+    html= f"""
+        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        """
+    iframe = folium.IFrame(html=html, width=900, height=1000)
+    popup = folium.Popup(iframe, max_width=200)
+
+
+folium.Marker(location=[52.0907374, 5.1214201],popup='<b>2843km2</b>',tooltip='Utrecht').add_to(map_Infra)
+folium.Marker(location=[51.9851034, 5.8987296],popup='<b>10125km2</b>',tooltip='Gelderland').add_to(map_Infra)
+folium.Marker(location=[53.2190652, 6.5680077],popup='<b>4739km2</b>',tooltip='Groningen').add_to(map_Infra)
+folium.Marker(location=[52.3638863, 6.4627523],popup='<b>6750km2</b>',tooltip='Overijssel').add_to(map_Infra)
+folium.Marker(location=[53.0949487, 5.8388679],popup='<b>3828km2</b>',tooltip='Friesland').add_to(map_Infra)
+folium.Marker(location=[52.6323813, 4.7533754],popup='<b>6096km2</b>',tooltip='Noord-Holland').add_to(map_Infra)
+folium.Marker(location=[52.078663, 4.288788],popup='<b>6083km2</b>',tooltip='Zuid-Holland').add_to(map_Infra)
+folium.Marker(location=[51.49694, 3.616689],popup='<b>3715km2</b>',tooltip='Zeeland').add_to(map_Infra)
+folium.Marker(location=[51.1913202, 5.9877715],popup='<b>4369km2</b>',tooltip='Limburg').add_to(map_Infra)
+folium.Marker(location=[52.8509512, 6.6057445],popup='<b>5321km2</b>',tooltip='Drenthe').add_to(map_Infra)
+folium.Marker(location=[52.518537, 5.471422],popup='<b>3828km2</b>',tooltip='Flevoland').add_to(map_Infra)
+folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noord-Brabant').add_to(map_Infra)
+
+
+c_Infra.add_to(map_Infra)
+
+map_Bebouwd = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
+                   scrollWheelZoom=False,
+                    max_zoom=7,
+                    min_zoom=7,
+                   dragging=False)
+
+c_Bebouwd = folium.Choropleth(
+    geo_data=geo_data1,
+    name="choropleth",
+    data=dfnieuw,
+    columns=["Locatie", "Bebouwd"],
+    key_on="feature.properties.Locatie",
+    fill_color="YlGnBu",
+    fill_opacity=0.85,
+    line_opacity=0.2,
+    legend_name="..",
+)
+
+for i in range(0,len(dfnieuw)):
+    html= f"""
+        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        """
+    iframe = folium.IFrame(html=html, width=900, height=1000)
+    popup = folium.Popup(iframe, max_width=200)
+
+
+folium.Marker(location=[52.0907374, 5.1214201],popup='<b>2843km2</b>',tooltip='Utrecht').add_to(map_Bebouwd)
+folium.Marker(location=[51.9851034, 5.8987296],popup='<b>10125km2</b>',tooltip='Gelderland').add_to(map_Bebouwd)
+folium.Marker(location=[53.2190652, 6.5680077],popup='<b>4739km2</b>',tooltip='Groningen').add_to(map_Bebouwd)
+folium.Marker(location=[52.3638863, 6.4627523],popup='<b>6750km2</b>',tooltip='Overijssel').add_to(map_Bebouwd)
+folium.Marker(location=[53.0949487, 5.8388679],popup='<b>3828km2</b>',tooltip='Friesland').add_to(map_Bebouwd)
+folium.Marker(location=[52.6323813, 4.7533754],popup='<b>6096km2</b>',tooltip='Noord-Holland').add_to(map_Bebouwd)
+folium.Marker(location=[52.078663, 4.288788],popup='<b>6083km2</b>',tooltip='Zuid-Holland').add_to(map_Bebouwd)
+folium.Marker(location=[51.49694, 3.616689],popup='<b>3715km2</b>',tooltip='Zeeland').add_to(map_Bebouwd)
+folium.Marker(location=[51.1913202, 5.9877715],popup='<b>4369km2</b>',tooltip='Limburg').add_to(map_Bebouwd)
+folium.Marker(location=[52.8509512, 6.6057445],popup='<b>5321km2</b>',tooltip='Drenthe').add_to(map_Bebouwd)
+folium.Marker(location=[52.518537, 5.471422],popup='<b>3828km2</b>',tooltip='Flevoland').add_to(map_Bebouwd)
+folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noord-Brabant').add_to(map_Bebouwd)
+
+
+c_Bebouwd.add_to(map_Bebouwd)
+
+map_Onverhard = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
+                   scrollWheelZoom=False,
+                    max_zoom=7,
+                    min_zoom=7,
+                   dragging=False)
+
+c_Onverhard = folium.Choropleth(
+    geo_data=geo_data1,
+    name="choropleth",
+    data=dfnieuw,
+    columns=["Locatie", "Onverhard"],
+    key_on="feature.properties.Locatie",
+    fill_color="YlGnBu",
+    fill_opacity=0.85,
+    line_opacity=0.2,
+    legend_name="..",
+)
+
+for i in range(0,len(dfnieuw)):
+    html= f"""
+        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        """
+    iframe = folium.IFrame(html=html, width=900, height=1000)
+    popup = folium.Popup(iframe, max_width=200)
+
+
+folium.Marker(location=[52.0907374, 5.1214201],popup='<b>2843km2</b>',tooltip='Utrecht').add_to(map_Onverhard)
+folium.Marker(location=[51.9851034, 5.8987296],popup='<b>10125km2</b>',tooltip='Gelderland').add_to(map_Onverhard)
+folium.Marker(location=[53.2190652, 6.5680077],popup='<b>4739km2</b>',tooltip='Groningen').add_to(map_Onverhard)
+folium.Marker(location=[52.3638863, 6.4627523],popup='<b>6750km2</b>',tooltip='Overijssel').add_to(map_Onverhard)
+folium.Marker(location=[53.0949487, 5.8388679],popup='<b>3828km2</b>',tooltip='Friesland').add_to(map_Onverhard)
+folium.Marker(location=[52.6323813, 4.7533754],popup='<b>6096km2</b>',tooltip='Noord-Holland').add_to(map_Onverhard)
+folium.Marker(location=[52.078663, 4.288788],popup='<b>6083km2</b>',tooltip='Zuid-Holland').add_to(map_Onverhard)
+folium.Marker(location=[51.49694, 3.616689],popup='<b>3715km2</b>',tooltip='Zeeland').add_to(map_Onverhard)
+folium.Marker(location=[51.1913202, 5.9877715],popup='<b>4369km2</b>',tooltip='Limburg').add_to(map_Onverhard)
+folium.Marker(location=[52.8509512, 6.6057445],popup='<b>5321km2</b>',tooltip='Drenthe').add_to(map_Onverhard)
+folium.Marker(location=[52.518537, 5.471422],popup='<b>3828km2</b>',tooltip='Flevoland').add_to(map_Onverhard)
+folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noord-Brabant').add_to(map_Onverhard)
+
+
+c_Onverhard.add_to(map_Onverhard)
+
+map_Landbouw = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
+                   scrollWheelZoom=False,
+                    max_zoom=7,
+                    min_zoom=7,
+                   dragging=False)
+
+c_Landbouw = folium.Choropleth(
+    geo_data=geo_data1,
+    name="choropleth",
+    data=dfnieuw,
+    columns=["Locatie", "Landbouw"],
+    key_on="feature.properties.Locatie",
+    fill_color="YlGnBu",
+    fill_opacity=0.85,
+    line_opacity=0.2,
+    legend_name="..",
+)
+
+for i in range(0,len(dfnieuw)):
+    html= f"""
+        <h2> {dfnieuw.iloc[i]['Locatie']}</h2>
+        """
+    iframe = folium.IFrame(html=html, width=900, height=1000)
+    popup = folium.Popup(iframe, max_width=200)
+
+
+folium.Marker(location=[52.0907374, 5.1214201],popup='<b>2843km2</b>',tooltip='Utrecht').add_to(map_Landbouw)
+folium.Marker(location=[51.9851034, 5.8987296],popup='<b>10125km2</b>',tooltip='Gelderland').add_to(map_Landbouw)
+folium.Marker(location=[53.2190652, 6.5680077],popup='<b>4739km2</b>',tooltip='Groningen').add_to(map_Landbouw)
+folium.Marker(location=[52.3638863, 6.4627523],popup='<b>6750km2</b>',tooltip='Overijssel').add_to(map_Landbouw)
+folium.Marker(location=[53.0949487, 5.8388679],popup='<b>3828km2</b>',tooltip='Friesland').add_to(map_Landbouw)
+folium.Marker(location=[52.6323813, 4.7533754],popup='<b>6096km2</b>',tooltip='Noord-Holland').add_to(map_Landbouw)
+folium.Marker(location=[52.078663, 4.288788],popup='<b>6083km2</b>',tooltip='Zuid-Holland').add_to(map_Landbouw)
+folium.Marker(location=[51.49694, 3.616689],popup='<b>3715km2</b>',tooltip='Zeeland').add_to(map_Landbouw)
+folium.Marker(location=[51.1913202, 5.9877715],popup='<b>4369km2</b>',tooltip='Limburg').add_to(map_Landbouw)
+folium.Marker(location=[52.8509512, 6.6057445],popup='<b>5321km2</b>',tooltip='Drenthe').add_to(map_Landbouw)
+folium.Marker(location=[52.518537, 5.471422],popup='<b>3828km2</b>',tooltip='Flevoland').add_to(map_Landbouw)
+folium.Marker(location=[51.555205, 5.078185],popup='<b>4369km2</b>',tooltip='Noord-Brabant').add_to(map_Landbouw)
+
+
+c_Landbouw.add_to(map_Landbouw)
 
 # ## Streamlit Code
 
@@ -479,22 +732,23 @@ elif pages == 'Bodemgebruik':
                                                     'Bebouwd','Onverhard','Landbouw'))
     if keuze == 'Water':
       st.subheader('Wateroppervlak in Nederland')
-      
+      folium_static(map_Water)
     if keuze == 'Natuur':
       st.subheader('Natuur oppervlak in Nederland')
-      
+      folium_static(map_Natuur)
     if keuze == 'Infra':
       st.subheader('Infrastructuur oppervlak in Nederland')
-      
+      folium_static(map_Infra)
     if keuze == 'Bebouwd':
       st.subheader('Bebouwd oppervlak in Nederland')
-      
+      folium_static(map_Bebouwd)
     if keuze == 'Onverhard':
       st.subheader('Onverhard oppervlak in Nederland')
-      
+      folium_static(map_Onverhard)
     if keuze == 'Landbouw':
       st.subheader('Landbouw oppervlak in Nederland')
-    
+      folium_static(map_Landbouw)
+      
 elif pages == 'Watergebruik':
     st.subheader('Watergebruik per jaar')
     st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per soort water.')
