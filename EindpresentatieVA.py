@@ -249,11 +249,16 @@ df_totaal_merge = df_totaal_merge[['Jaar','Locatie','Watergebruikers',
                                   'percentage','Watergebruik_bodem_m3']]
 # ## Code voor het maken van de geospatial map
 df_totaal_merge_map = df_totaal_merge[df_totaal_merge.Jaar == 2015]
+df_totaal_merge_map = df_totaal_merge_map[['Jaar','Locatie','Water','Natuur','Infra','Bebouwd','Onverhard','Landbouw']]
+df_totaal_merge_map = df_totaal_merge_map.groupby(['Jaar','Locatie'])['Water','Infra','Bebouwd','Natuur','Onverhard','Landbouw'].mean()
+df_totaal_merge_map.reset_index(inplace = True)
 Provincie_id = [1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33]
 df_totaal_merge_map['Provincie_id'] = Provincie_id
 df_totaal_merge['centroid'] = df_totaal_merge.centroid
 df_totaal_merge['centroid'] = df_totaal_merge['centroid'].to_crs(epsg=4326)
 dfmap = df_totaal_merge_map.drop(columns = 'centroid')
+
+
 # ## Alle maps gemaakt per soort bodem
 map_Natuur = folium.Map([52.0907374,5.1214201],zoom_start=7,zoom_control=False,
                    scrollWheelZoom=False,
