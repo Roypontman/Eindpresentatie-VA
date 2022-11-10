@@ -210,6 +210,42 @@ df_totaal['Totaal_gebruik'] = df_totaal['Totaal_leidingwater_miljoen_m3'] + df_t
 df_totaal['Totaal_gebruik_miljard_m3'] = df_totaal['Totaal_gebruik']/1000
 df_watergebruik_jaar = df_watergebruik_jaar.reset_index()
 df_totaal = df_totaal.reset_index()
+df_totaal_merge = df_totaal[['Jaar','Watergebruikers','Totaal_gebruik']]
+# ## Voor het mergen moeten we alleen huishoudens,landbouw en infra gebruikers overhouden
+Watergebruikers_particulier = ['Huishoudens','Landbouw','Vervoer en opslag']
+df_totaal_merge1 = df_totaal_merge[df_totaal_merge['Watergebruikers'].isin(Watergebruikers_particulier)]
+# ## Mergen van Bodemgebruik met Watergebruik
+df_totaal_merge = bodemgebruik.merge(df_totaal_merge1, on ='Jaar', how = 'left')
+df_totaal_merge = df_totaal_merge.assign(Totaal_oppervlak = lambda x: x['Water'] + x['Natuur']+x['Infra']+x['Bebouwd']+ x['Onverhard']+x['Landbouw'])
+df_totaal_merge = df_totaal_merge.assign(Totaal_oppervlak_watergebruikers = lambda x: x['Infra']+x['Bebouwd']+x['Landbouw'])
+df_totaal_merge = df_totaal_merge[['ID','Jaar','Watergebruikers','Locatie','Water','Natuur','Infra','Bebouwd','Onverhard','Landbouw','Totaal_gebruik','Totaal_oppervlak','Totaal_oppervlak_watergebruikers','geometry','centroid']]
+# ## Het schrijven van een for-loop die zorgt voor een verdeling van water over de provincies aan de hand van het bodemgebruik
+aantal_provincies = 12
+df_totaal_merge['Totaal_gebruik_provincie'] = df_totaal_merge['Totaal_gebruik']/aantal_provincies
+
+for i,column in df_totaal_merge.iterrows():
+    if column['Watergebruikers'] == 'Landbouw':
+        df_totaal_merge.loc[i,'percentage'] = column['Landbouw']/column['Totaal_oppervlak_watergebruikers']
+    elif column['Watergebruikers'] == 'Vervoer en opslag':
+        df_totaal_merge.loc[i,'percentage'] = column['Infra']/column['Totaal_oppervlak_watergebruikers']
+    else :
+        df_totaal_merge.loc[i,'percentage'] = column['Bebouwd']/column['Totaal_oppervlak_watergebruikers']
+ 
+for i,column in df_totaal_merge.iterrows():
+    if column['Watergebruikers'] == 'Landbouw':
+        df_totaal_merge.loc[i,'Watergebruik_bodem_m3'] = column['percentage']*column['Totaal_gebruik_provincie']
+    elif column['Watergebruikers'] == 'Vervoer en opslag':
+        df_totaal_merge.loc[i,'Watergebruik_bodem_m3'] = column['percentage']*column['Totaal_gebruik_provincie']
+    else :
+        df_totaal_merge.loc[i,'Watergebruik_bodem_m3'] = column['percentage']*column['Totaal_gebruik_provincie']
+
+df_totaal_merge_watergebruik = df_totaal_merge.groupby(['Jaar','Locatie'])['Watergebruik_bodem_m3'].sum().reset_index(name = 'Totaal_watergebruik_m3')
+df_totaal_merge = df_totaal_merge[['Jaar','Locatie','Watergebruikers',
+                                   'Water','Natuur','Infra','Bebouwd',
+                                   'Onverhard','Landbouw','Totaal_gebruik',
+                                  'Totaal_oppervlak_watergebruikers','Totaal_gebruik_provincie',
+                                  'percentage','Watergebruik_bodem_m3']]
+
 
 
 
