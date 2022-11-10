@@ -306,8 +306,7 @@ elif pages == 'Bodemgebruik in cijfers':
     
     if keuze == 'Water':
         st.subheader('Wateroppervlak in Nederland')
-      
-          with st.expander("Zie het tabel"):
+        with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Water']])
       #Figuur maken van de keuze
         figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Water', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
@@ -325,7 +324,7 @@ elif pages == 'Bodemgebruik in cijfers':
       # Verdeling maken van aandeel per sector
         figbodem1 = px.pie(df_totaal_merge, values='Water', names='Locatie', opacity = 0.7, title='Aandeel wateroppervlak per provincie')
         figbodem1.update_traces(textinfo='percent+label')
-          with st.expander("Zie de Visualisaties"):
+        with st.expander("Zie de Visualisaties"):
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
@@ -333,8 +332,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)
     if keuze == 'Natuur':
         st.subheader('Natuur oppervlak in Nederland')
-      
-          with st.expander("Zie het tabel"):
+        with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Natuur']])
       #Figuur maken van de keuze
         figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Natuur', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
@@ -352,7 +350,7 @@ elif pages == 'Bodemgebruik in cijfers':
       # Verdeling maken van aandeel per sector
         figbodem1 = px.pie(df_totaal_merge, values='Natuur', names='Locatie', opacity = 0.7, title='Aandeel natuur oppervlak per provincie')
         figbodem1.update_traces(textinfo='percent+label')
-          with st.expander("Zie de Visualisaties"):
+        with st.expander("Zie de Visualisaties"):
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
@@ -360,8 +358,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)   
     if keuze == 'Infra':
         st.subheader('Infrastructuur oppervlak in Nederland')
-      
-          with st.expander("Zie het tabel"):
+        with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Infra']])
       #Figuur maken van de keuze
         figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Infra', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
@@ -379,7 +376,7 @@ elif pages == 'Bodemgebruik in cijfers':
       # Verdeling maken van aandeel per sector
         figbodem1 = px.pie(df_totaal_merge, values='Infra', names='Locatie', opacity = 0.7, title='Aandeel infrastructuur oppervlak per provincie')
         figbodem1.update_traces(textinfo='percent+label')
-          with st.expander("Zie de Visualisaties"):
+        with st.expander("Zie de Visualisaties"):
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
@@ -387,8 +384,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)   
     if keuze == 'Bebouwd':
         st.subheader('Bebouwd oppervlak in Nederland')
-      
-          with st.expander("Zie het tabel"):
+        with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Bebouwd']])
       #Figuur maken van de keuze
         figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Bebouwd', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
@@ -406,7 +402,7 @@ elif pages == 'Bodemgebruik in cijfers':
       # Verdeling maken van aandeel per sector
         figbodem1 = px.pie(df_totaal_merge, values='Bebouwd', names='Locatie', opacity = 0.7, title='Aandeel Bebouwd oppervlak per provincie')
         figbodem1.update_traces(textinfo='percent+label')
-          with st.expander("Zie de Visualisaties"):
+        with st.expander("Zie de Visualisaties"):
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
@@ -414,8 +410,7 @@ elif pages == 'Bodemgebruik in cijfers':
               """)
     if keuze == 'Onverhard':
         st.subheader('Onverhard oppervlak in Nederland')
-      
-          with st.expander("Zie het tabel"):
+        with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Onverhard']])
       #Figuur maken van de keuze
         figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Onverhard', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
@@ -433,7 +428,7 @@ elif pages == 'Bodemgebruik in cijfers':
       # Verdeling maken van aandeel per sector
         figbodem1 = px.pie(df_totaal_merge, values='Onverhard', names='Locatie', opacity = 0.7, title='Aandeel Onverhard oppervlak per provincie')
         figbodem1.update_traces(textinfo='percent+label')
-          with st.expander("Zie de Visualisaties"):
+        with st.expander("Zie de Visualisaties"):
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
@@ -442,8 +437,7 @@ elif pages == 'Bodemgebruik in cijfers':
             
     if keuze == 'Landbouw':
         st.subheader('Landbouw oppervlak in Nederland')
-      
-          with st.expander("Zie het tabel"):
+        with st.expander("Zie het tabel"):
             st.dataframe(df_totaal_merge[['Locatie','Landbouw']])
       #Figuur maken van de keuze
         figbodem = px.bar(df_totaal_merge, x = 'Jaar', y= 'Landbouw', text_auto=True, color = 'Locatie', opacity = 0.6, barmode='group')
@@ -461,14 +455,17 @@ elif pages == 'Bodemgebruik in cijfers':
       # Verdeling maken van aandeel per sector
         figbodem1 = px.pie(df_totaal_merge, values='Landbouw', names='Locatie', opacity = 0.7, title='Aandeel Landbouw oppervlak per provincie')
         figbodem1.update_traces(textinfo='percent+label')
-          with st.expander("Zie de Visualisaties"):
+        with st.expander("Zie de Visualisaties"):
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
               De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
               """)
-
-
+elif pages == 'Bodemgebruik':
+    st.subheader('Bodemgebruik in Nederland')
+    st.markdown('Onder het kopje "Bodemgebruik in cijfers" was te zien het bodemgebruik per soort bodem per provincie in Nederland.')
+    st.markdown('Op deze pagina wordt het gebruik zichtbaar gemaakt via een kaart')
+    
 elif pages == 'Watergebruik':
     st.subheader('Watergebruik per jaar')
     st.markdown('In onderstaand veld kunt u een jaar invullen waarin u het watergebruik kunt zien per soort water.')
