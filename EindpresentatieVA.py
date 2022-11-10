@@ -263,7 +263,7 @@ def add_bg_from_url():
              background-image: url(https://www.the-clear-way.nl/images/bg-6.jpg);
              background-attachment: fixed;
              background-size: cover;
-             opacity: 0.55
+             background-opacity: 0.55
          }}
          </style>
          """,
