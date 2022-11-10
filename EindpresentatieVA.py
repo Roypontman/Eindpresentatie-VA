@@ -29,24 +29,103 @@ from datetime import date
 import seaborn as sns
 import matplotlib.pyplot as plt
 #import folium
+# ## Ophalen Dataset Bodemgebruik door middel van API
+r1 = requests.get('https://opendata.cbs.nl/ODataApi/odata/37105/TypedDataSet')
+x1 = r1.json()
+df1 = pd.DataFrame(x1['value'])
+r2 = requests.get('https://opendata.cbs.nl/ODataApi/odata/37105/RegioS')
+x2 = r2.json()
+df2 = pd.DataFrame(x2['value'])
+r3 = requests.get('https://opendata.cbs.nl/ODataApi/odata/37105/Perioden')
+x3 = r3.json()
+df3 = pd.DataFrame(x3['value'])
+# ## Tot een dataset/frame komen, mergen van de drie bovenstaande dataframes
+df3 = df3.rename(columns={"Key": "Perioden"})
+dfstap1 = df2.rename(columns={"Key": "RegioS"})
+df2nieuw = dfstap1.drop(columns = ['Description', 'CategoryGroupID'])
+data_stap1 = df1.merge(df3, on='Perioden')
+data_stap2 = data_stap1.merge(df2nieuw, on='RegioS')
+# ## Hernoemen/droppen van kolommen,waarden
+data_stap3 = data_stap2.replace({'Groningen (PV)': 'Groningen',
+                         'Noord-Holland (PV)': 'Noord-Holland',
+                         'Zuid-Holland (PV)': 'Zuid-Holland',
+                         'Friesland (PV)': 'Friesland',
+                         'Zeeland (PV)': 'Zeeland',
+                         'Gelderland (PV)': 'Gelderland',
+                         'Overijssel (PV)': 'Overijssel',
+                         'Utrecht (PV)': 'Utrecht',
+                         'Limburg (PV)': 'Limburg',
+                         'Drenthe (PV)': 'Drenthe',
+                        'Flevoland (PV)': 'Flevoland',
+                         'Noord-Brabant (PV)': 'Noord-Brabant'})
+
+data_stap4 = data_stap3.rename(columns={"Title_x": "Jaar", "Title_y" : "Locatie"})
+data_stap4 = data_stap4.drop(columns=['Status', 'RegioS', 'Perioden', 'Description', 'Buitenwater_26'])
+data_stap5= data_stap4.dropna()
+# ## Geojson inladen van alle provincies in Nederland
+provincies_geo = gpd.read_file('Provincies.geojson')
+# ## Deze geojson bewerken/manipuleren
+geo_data = provincies_geo.rename(columns=({'OMSCHRIJVI':'Locatie'}))
+geo_data1 = geo_data.replace(regex={r'Fryslân': 'Friesland'})
+data_stap6 = geo_data1.merge(data_stap5, on= 'Locatie')
+
+data_stap7 = data_stap6.rename(columns ={'TotaalVerkeersterrein_2' : 'Infra1',
+                                        'Spoorterrein_3' : 'Infra2',
+                                        'Wegverkeersterrein_4' : 'Infra3',
+                                        'Vliegveld_5' : 'Infra4',
+                                         
+                                        'TotaalBebouwdTerrein_6' : 'Bebouwd1',
+                                        'Woonterrein_7' : 'Bebouwd2',
+                                        'Bedrijventerreinen_8' : 'Bebouwd3',
+                                        'SociaalCultureleVoorzieningen_9' : 'Bebouwd4',
+                                        'TotaalSemiBebouwdTerrein_10' : 'Bebouwd5',
+                                        'Delfstofwinplaats_11' : 'Bebouwd6',
+                                        'Bouwterrein_12' : 'Bebouwd7',
+                                        'OverigeSemiBebouwdeTerreinen_13' : 'Bebouwd8',
+                                         
+                                         
+                                        'Sportterrein_16' : 'Onverhard1',
+                                        'TotaalRecreatieterrein_14' : 'Onverhard2',
+                                         'OverigeRecreatieterreinen_17' : 'Onverhard3',
+                                         
+                                         'TotaalAgrarischTerrein_18' : 'Landbouw1',
+                                         'TerreinVoorGlastuinbouw_19' : 'Landbouw2',
+                                         'OverigAgrarischTerrein_20' : 'Landbouw3',
+                                         
+                                         
+                                         
+                                        'TotaalBosEnOpenNatuurlijkTerrein_21' : 'Natuur1',
+                                        'Bos_22' : 'Natuur2',
+                                        'OpenNatuurlijkeTerreinen_23' : 'Natuur3',
+                                         'ParkEnPlantsoen_15': 'Natuur4',
+                                         
+                                         'Binnenwater_25' : 'Water',
+                                         
+                                         'Totaal_1' : 'Totaal'
+                                        })
+# ## Kolommen samenvoegen en overige weglaten
+data_stap7['Natuur'] = data_stap7["Natuur1"] +  data_stap7["Natuur2"] +  data_stap7["Natuur3"] +  data_stap7["Natuur4"]
+data_stap7['Infra'] = data_stap7["Infra1"] +  data_stap7["Infra2"] +  data_stap7["Infra3"] +  data_stap7["Infra4"]
+data_stap7['Bebouwd'] = data_stap7["Bebouwd1"] +  data_stap7["Bebouwd2"] +  data_stap7["Bebouwd3"] +  data_stap7["Bebouwd4"]+  data_stap7["Bebouwd5"]+  data_stap7["Bebouwd4"]+  data_stap7["Bebouwd6"]+  data_stap7["Bebouwd7"]+  data_stap7["Bebouwd8"]
+data_stap7['Onverhard'] = data_stap7["Onverhard1"] +  data_stap7["Onverhard2"] +  data_stap7["Onverhard3"] 
+data_stap7['Landbouw'] = data_stap7["Landbouw1"] +  data_stap7["Landbouw2"] +  data_stap7["Landbouw3"]
+
+data_stap8 = data_stap7.drop(columns = [ 'Natuur1', 'Natuur2', 'Natuur3', 'Natuur4',
+                               'Infra1', 'Infra2', 'Infra3', 'Infra4',
+                               'Bebouwd1', 'Bebouwd2', 'Bebouwd3', 'Bebouwd4','Bebouwd5', 'Bebouwd6', 'Bebouwd7', 'Bebouwd8',
+                               'Onverhard1', 'Onverhard2', 'Onverhard3', 
+                               'Landbouw1', 'Landbouw2', 'Landbouw3'
+                               ])
+# ## Centroïden plaatsen voor de popups in de map
+data_stap8['centroid'] = data_stap8.centroid
+data_stap8['centroid'] = data_stap8['centroid'].to_crs(epsg=4326)
+# ## Datastap 8 omschrijven naar een betere naam
+bodemgebruik = data_stap8[['ID','Jaar','Locatie','Water','Natuur','Infra','Bebouwd','Onverhard','Landbouw','geometry','centroid']]
+bodemgebruik['Jaar'] = pd.to_datetime(bodemgebruik['Jaar']).dt.year
+bodemgebruik = bodemgebruik[bodemgebruik.Jaar > 2000]
 
 
-# ## Ophalen Datasets
-#df_leidingwater = pd.read_csv('Leidingwater.csv', sep =';')
-#df_grondwater = pd.read_csv('Grondwater.csv', sep =';')
-#df_oppervlaktewater = pd.read_csv('Oppervlaktewater.csv', sep =';')
-
-# ## Bewerken van de Data
-# ###Bewerken data watergebruik
-
-# Voor grondwater en oppervlaktewater zijn er NAN-values omdat het hier gaat om huishoudelijke watergebruikers
-# of gebruikers die alleen gebruik maken van leidingwater (zoals bijvoorbeeld ook Horeca). Hierdoor vullen we alle NAN-values met 0
-#df_grondwater = df_grondwater.fillna(0)
-#df_oppervlaktewater = df_oppervlaktewater.fillna(0)
-
-#df_watergebruik = df_leidingwater.merge(df_grondwater, on = ['ID','Perioden','Watergebruikers']) \
-#                   .merge(df_oppervlaktewater, on = ['ID','Perioden','Watergebruikers'])
-# ## Ophalen Dataset door middel van API
+# ## Ophalen Dataset Watergebruik door middel van API
 url = "https://opendata.cbs.nl/ODataApi/odata/82883NED/TypedDataSet"
 response = requests.get(url)
 json = response.json()
@@ -131,8 +210,7 @@ df_totaal['Totaal_gebruik'] = df_totaal['Totaal_leidingwater_miljoen_m3'] + df_t
 df_totaal['Totaal_gebruik_miljard_m3'] = df_totaal['Totaal_gebruik']/1000
 df_watergebruik_jaar = df_watergebruik_jaar.reset_index()
 df_totaal = df_totaal.reset_index()
-#mdl_totaal_vs_all = ols('Totaal_leidingwater_miljoen_m3 ~ Drinkwater_miljoen_m3, industriewater_miljoen_m3', data = df_watergebruik).fit()
-#print(mdl_totaal_vs_all.summary())
+
 
 
 
@@ -146,7 +224,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: https://www.the-clear-way.nl/images/bg-6.jpg;
+             background-image: url(https://www.the-clear-way.nl/images/bg-6.jpg);
              background-attachment: fixed;
              background-size: cover;
              #opacity: 0.55
