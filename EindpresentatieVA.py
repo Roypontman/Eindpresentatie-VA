@@ -522,6 +522,7 @@ df_model = df_watergebruik_jaar_toekomst2.append(Nieuwe_rij3, ignore_index=True)
 df_model['Jaar'] = pd.to_datetime(df_model['Jaar'], format = '%Y')
 df_model['Jaar'] = df_model['Jaar'].dt.year
 fig_model = px.scatter(df_model, x = 'Jaar', y = 'Totaal_gebruik_m3',trendline='rolling', trendline_options=dict(window=3))
+fig_model.update_layout(xaxis_title = 'Datum',yaxis_title = 'Totaal water gebruik (in miljard m^3)', title ='Totaal watergebruik in de toekomst'
 # ## Streamlit Code
 
 # ### Achtergrond invoegen
