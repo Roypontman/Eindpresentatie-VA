@@ -329,7 +329,7 @@ elif pages == 'Bodemgebruik in cijfers':
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
-              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              De grafieken laten zien dat Flevoland, Friesland en Noord-Holland het meeste wateroppervlak hebben in Nederland.
               """)
     if keuze == 'Natuur':
         st.subheader('Natuur oppervlak in Nederland')
@@ -356,7 +356,7 @@ elif pages == 'Bodemgebruik in cijfers':
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
-              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              De grafieken laten zien dat Gelderland en Noord-Brabant het meeste natuur oppervlak hebben in Nederland.
               """)   
     if keuze == 'Infra':
         st.subheader('Infrastructuur oppervlak in Nederland')
@@ -383,7 +383,7 @@ elif pages == 'Bodemgebruik in cijfers':
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
-              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              De grafieken laten zien dat Gelderland en Noord-Brabant het meeste infrastructuur oppervlak hebben in Nederland.
               """)   
     if keuze == 'Bebouwd':
         st.subheader('Bebouwd oppervlak in Nederland')
@@ -410,7 +410,7 @@ elif pages == 'Bodemgebruik in cijfers':
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
-              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              De grafieken laten zien dat Zuid-Holland en Noord-Brabant het meeste bebouwd oppervlak hebben in Nederland.
               """)
     if keuze == 'Onverhard':
         st.subheader('Onverhard oppervlak in Nederland')
@@ -437,7 +437,7 @@ elif pages == 'Bodemgebruik in cijfers':
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
-              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              De grafieken laten zien dat Zuid-Holland, Noord-Holland, Gelderland en Noord Brabant het meeste onverhard oppervlak hebben in Nederland.
               """)
             
     if keuze == 'Landbouw':
@@ -465,7 +465,7 @@ elif pages == 'Bodemgebruik in cijfers':
             st.plotly_chart(figbodem)
             st.plotly_chart(figbodem1)
             st.write("""
-              De grafieken laten zien dat huishoudens en Industrie veruit het meeste leidingwater gebruiken in Nederland.
+              De grafieken laten zien dat Gelderland en Noord Brabant het meeste landbouw oppervlak hebben in Nederland.
               """)
 elif pages == 'Bodemgebruik':
     st.subheader('Bodemgebruik in Nederland')
@@ -570,7 +570,7 @@ elif pages == 'Watergebruik':
         st.plotly_chart(fig2)
         st.plotly_chart(fig)
         st.write("""
-          De visualisaties laten zien dat de Industrie de enige sector is die industriewater gebruikt in Nederland. Dit komt door een fout in de dataset, waardoor meerdere sectoren vallen onder Industrie. Hiermee valt alles onder één sector.
+          De visualisaties laten zien dat de Industrie de enige sector is die industriewater gebruikt in Nederland.
           """)
       
     if keuze == 'Totaal grondwater':
